@@ -1,0 +1,44 @@
+{
+  "name": "datomiki",
+  "description": "datomic rest client in ki / js",
+  "keywords": [
+    "datomic",
+    "rest",
+    "client",
+    "ki"
+  ],
+  "version": "0.0.0-1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/orlin/datomiki.git"
+  },
+  "bugs": {
+    "mail": "om@soundsapiens.com",
+    "url": "https://github.com/orlin/datomiki/issues"
+  },
+  "author": "Orlin M Bozhinov <om@soundsapiens.com>",
+  "contributors": [],
+  "dependencies": {
+    "ki": "^0.1.29",
+    "request": "^2.48.0"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "mocha": "*",
+    "should": "*"
+  },
+  "scripts": {
+    "work": "./node_modules/.bin/ki -w -o datomiki.js datomiki.ki.js",
+    "compile": "./node_modules/.bin/ki -o datomiki.js datomiki.ki.js",
+    "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "licenses": [
+    {
+      "type": "Unlicense",
+      "url": "http://unlicense.org/"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+.DS_Store
+*~
+.#*
+.hgignore
+.hg/*
+.svn/*
+._*
+*.swp
+tmp
+bats
+
+# Node
+node_modules
+npm-debug.log

@@ -1,12 +1,12 @@
 #!/usr/bin/env mocha
 
-kida = require("../datomiki.js")
+d = require("../datomiki.js")
+toJS = require("mori").clj_to_js
 
 describe "datomiki", ->
-
+  opts = toJS(d.opts())
   describe "conn", ->
-
-    it "should return a uri", ->
-      kida.conn(
-        uri: "http://localhost:8888")
-        .should.equal "http://localhost:8888"
+    it "should assemble a db alias and a url", ->
+      conn = toJS(d.conn())
+      conn[":db"].should.equal opts[":alias"] + "/" + opts[":name"]
+      conn[":url"].should.equal opts[":uri"] + opts[":url"]

@@ -12,3 +12,6 @@ bats
 # Node
 node_modules
 npm-debug.log
+
+# Source Maps
+*.js.map

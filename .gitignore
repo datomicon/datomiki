@@ -8,7 +8,7 @@
 *.swp
 tmp
 
-/datomic
+/datomic/*
 
 # Node
 node_modules

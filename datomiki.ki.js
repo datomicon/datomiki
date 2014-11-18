@@ -6,7 +6,7 @@ ki require core
 ki (ns datomiki
 
   (def base {:uri "http://localhost:8888"
-             :alias "mem"
+             :alias "free"
              :name "test"
              :db ""
              :url "/"
@@ -30,5 +30,31 @@ ki (ns datomiki
     (let [o (conn opts)]
     o))
 
-  (export opts)
-  (export req))
+  (defn aliases [opts]
+    "list aliases")
+
+  (defn cdb [opts]
+    "create database")
+
+  (defn dbs [opts]
+    "list databases")
+
+  (defn info [opts]
+    "retrieve database info")
+
+  (defn transact [opts]
+    "process transaction")
+
+  (defn datoms [opts]
+    "retrieve datoms")
+
+  (defn entity [opts]
+    "retrieve entity")
+
+  (defn q [opts]
+    "query")
+
+  (defn events [opts]
+    "subscribe to events")
+
+  (export opts))

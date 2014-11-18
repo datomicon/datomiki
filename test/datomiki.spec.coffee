@@ -4,9 +4,9 @@ d = require("../datomiki.js")
 toJS = require("mori").clj_to_js
 
 describe "datomiki", ->
-  opts = toJS(d.opts())
-  describe "conn", ->
+  base = toJS(d.opts())
+  describe "opts", ->
     it "should assemble a db alias and a url", ->
-      conn = toJS(d.conn())
-      conn[":db"].should.equal opts[":alias"] + "/" + opts[":name"]
-      conn[":url"].should.equal opts[":uri"] + opts[":url"]
+      opts = toJS(d.opts({}))
+      opts[":db"].should.equal base[":alias"] + "/" + base[":name"]
+      opts[":url"].should.equal base[":uri"] + base[":url"]

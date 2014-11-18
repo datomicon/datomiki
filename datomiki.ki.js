@@ -7,7 +7,7 @@ ki (ns datomiki
 
   (def base {:uri "http://localhost:8888"
              :alias "free"
-             :name "test"
+             :named "test"
              :db ""
              :url "/"
              :basis "-"
@@ -21,7 +21,7 @@ ki (ns datomiki
     ([opts]
       (let [m (merge base (js_to_clj opts))]
       (assoc m
-        :db (str (get m :alias) "/" (get m :name))
+        :db (str (get m :alias) "/" (get m :named))
         :url (str (get m :uri) (get m :url))))))
 
   // TODO:

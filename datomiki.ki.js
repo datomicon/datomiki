@@ -35,15 +35,18 @@ ki (ns datomiki
           "uri" (str (get o "uri") (get o "url"))
           "headers" {"accept" (get o "accept")}))))
 
+  (defn response [res, o]
+    // takes care of the response
+    (if (equals "json" (js o.format))
+      (clj_to_js {"code" (js res.statusCode)
+                  "body" (clj_to_js (js res.body))})
+      {:code (js res.statusCode)
+       :body (js res.body)}))
+
   (defn req [o cb]
     // make a request
     (let [o (clj_to_js (opts o))]
-      (request o (fn [err res]
-                     (if (equals "json" (js o.format))
-                       (cb err (clj_to_js {"code" (js res.statusCode)
-                                           "body" (clj_to_js (js res.body))}))
-                       (cb err {:code (js res.statusCode)
-                                :body (js res.body)}))))))
+      (request o (fn [err res] (cb err (response res))))))
 
   (defn aliases [o cb]
     // list aliases

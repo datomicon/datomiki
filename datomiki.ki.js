@@ -16,8 +16,9 @@ ki (ns datomiki
              "basis" "-" // the basis-t
              "method" "get"
              "data" {}
+             "accept" "application/edn"
              "format" "json" // use "edn" if preferred
-             "accept" "application/edn"})
+             "response" false})
 
   (defn ednize [data]
     // make sure data is in edn format
@@ -35,18 +36,20 @@ ki (ns datomiki
           "uri" (str (get o "uri") (get o "url"))
           "headers" {"accept" (get o "accept")}))))
 
-  (defn response [res, o]
+  (defn response [res o]
     // takes care of the response
-    (if (equals "json" (js o.format))
-      (clj_to_js {"code" (js res.statusCode)
-                  "body" (clj_to_js (js res.body))})
-      {:code (js res.statusCode)
-       :body (js res.body)}))
+    (if (js o.response)
+      res // true, pass on verbatim
+      (if (equals "json" (js o.format))
+        (clj_to_js {"code" (js res.statusCode)
+                    "body" (clj_to_js (js res.body))})
+        {:code (js res.statusCode)
+         :body (js res.body)})))
 
   (defn req [o cb]
     // make a request
     (let [o (clj_to_js (opts o))]
-      (request o (fn [err res] (cb err (response res))))))
+      (request o (fn [err res] (cb err (response res o))))))
 
   (defn aliases [o cb]
     // list aliases

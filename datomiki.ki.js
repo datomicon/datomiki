@@ -7,30 +7,35 @@ ki (ns datomiki
 
   (def request (require "request"))
 
-  (def base {"uri" "http://localhost:8888"
-             "alias" "free"
-             "named" "test"
-             "db" ""
+  (def // default options
+       base {"uri" "http://localhost:8888" // the url will be appended to it
+             "alias" "free" // the storage alias
+             "named" "test" // the name of the db
+             "db" "" // becomes :db/alias
              "url" "/"
-             "basis" "-"
+             "basis" "-" // the basis-t
              "method" "get"
              "data" {}
-             "format" "edn"
+             "format" "json" // use "edn" if preferred
              "accept" "application/edn"})
 
   (defn opts
+    // get the default options or such to call request with
     ([] base) // the base default options
-    ([opts]
-      (let [m (merge base (js_to_clj opts))]
-        (assoc m
-          "db" (str (get m "alias") "/" (get m "named"))
-          "uri" (str (get m "uri") (get m "url"))
-          "headers" {"accept" (get m "accept")}))))
+    ([opts] // one must, at least, change the url
+      (let [o (merge base (js_to_clj opts))]
+        (assoc o
+          "db" (str (get o "alias") "/" (get o "named"))
+          "uri" (str (get o "uri") (get o "url"))
+          "headers" {"accept" (get o "accept")}))))
 
   (defn req [o cb]
-    "make a request"
+    // make a request
     (let [o (clj_to_js (opts o))]
-      (request o (fn [err res] (cb err res)))))
+      (request o (fn [err res]
+                     (if (equals "json" (get o "format"))
+                       (cb err (clj_to_js res))
+                       (cb err res))))))
 
   (defn aliases [opts]
     "list aliases")

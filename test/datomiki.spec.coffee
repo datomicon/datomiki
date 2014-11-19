@@ -4,6 +4,8 @@ d = require("../datomiki.js")
 toJS = require("mori").clj_to_js
 request = require("request")
 
+ok = (res) -> res.statusCode.should.eql 200
+
 describe "datomiki", ->
   base = toJS(d.opts())
 
@@ -17,11 +19,11 @@ describe "datomiki", ->
     it "can be made using opts, tests that the server is running", (done) ->
       request toJS(d.opts(accept: "text/html")), (err, res) ->
         console.log err if err
-        res.statusCode.should.eql 200
+        ok res
         done()
 
   describe "req", ->
     it "can be used without helper functions, request with less code", (done) ->
       d.req accept: "text/html", (err, res) ->
-        res.statusCode.should.eql 200
+        ok res
         done()

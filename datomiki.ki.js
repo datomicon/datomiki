@@ -22,7 +22,8 @@ ki (ns datomiki
       (let [m (merge base (js_to_clj opts))]
       (assoc m
         "db" (str (get m "alias") "/" (get m "named"))
-        "url" (str (get m "uri") (get m "url"))))))
+        "uri" (str (get m "uri") (get m "url"))
+        "headers" {"accept" (get m "accept")}))))
 
   // TODO:
   (defn req [opts]

@@ -19,11 +19,17 @@ ki (ns datomiki
              "format" "json" // use "edn" if preferred
              "accept" "application/edn"})
 
+  (defn ednize [data]
+    // make sure data is in edn format
+    // it appears js_to_clj can run ok 2 times in a row on the same data
+    // still good to have names that are easier for congnitive parsing
+    (js_to_clj data))
+
   (defn opts
     // get the default options or such to call request with
     ([] base) // the base default options
     ([opts] // one must, at least, change the url
-      (let [o (merge base (js_to_clj opts))]
+      (let [o (merge base (ednize opts))]
         (assoc o
           "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
@@ -33,12 +39,15 @@ ki (ns datomiki
     // make a request
     (let [o (clj_to_js (opts o))]
       (request o (fn [err res]
-                     (if (equals "json" (get o "format"))
-                       (cb err (clj_to_js res))
-                       (cb err res))))))
+                     (if (equals "json" (js o.format))
+                       (cb err (clj_to_js {"code" (js res.statusCode)
+                                           "body" (clj_to_js (js res.body))}))
+                       (cb err {:code (js res.statusCode)
+                                :body (js res.body)}))))))
 
-  (defn aliases [opts]
-    "list aliases")
+  (defn aliases [o cb]
+    // list aliases
+    (req (merge (ednize o) {"url" "/data/"}) cb))
 
   (defn cdb [opts]
     "create database")
@@ -65,4 +74,5 @@ ki (ns datomiki
     "subscribe to events")
 
   (export opts)
-  (export req))
+  (export req)
+  (export aliases))

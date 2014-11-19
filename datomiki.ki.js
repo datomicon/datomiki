@@ -5,6 +5,8 @@ ki require core
 
 ki (ns datomiki
 
+  (js var request = require("request"))
+
   (def base {"uri" "http://localhost:8888"
              "alias" "free"
              "named" "test"
@@ -25,11 +27,10 @@ ki (ns datomiki
         "uri" (str (get m "uri") (get m "url"))
         "headers" {"accept" (get m "accept")}))))
 
-  // TODO:
-  (defn req [opts]
-    "options for calling request with"
-    (let [o (conn opts)]
-    o))
+  (defn req [o cb]
+    "make a request"
+    (let [o (clj_to_js (opts o))]
+    (request o (fn [err res body] (cb err body)))))
 
   (defn aliases [opts]
     "list aliases")
@@ -58,4 +59,5 @@ ki (ns datomiki
   (defn events [opts]
     "subscribe to events")
 
-  (export opts))
+  (export opts)
+  (export req))

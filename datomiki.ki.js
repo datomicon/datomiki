@@ -58,9 +58,10 @@ ki (ns datomiki
     (let [o (clj_to_js (opts o))]
       (request o (fn [err res] (cb err (response res o))))))
 
-  (defn aliases [o cb]
+  (defn aliases
     // list aliases
-    (req (merge (edenize o) {"url" "/data/"}) cb))
+    ([cb] (aliases {} cb))
+    ([o cb](req (merge (edenize o) {"url" "/data/"}) cb)))
 
   (defn cdb [opts]
     "create database")

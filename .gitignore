@@ -7,8 +7,25 @@
 ._*
 *.swp
 tmp
-bats
+
+/datomic/*
 
 # Node
 node_modules
 npm-debug.log
+
+# Source Maps
+*.js.map
+
+# Clojure
+*.jar
+*.class
+pom.xml
+pom.xml.asc
+.lein-*
+.nrepl-port
+/target
+/classes
+/checkouts
+/out
+/.repl

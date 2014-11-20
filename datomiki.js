@@ -1,31 +1,31 @@
 _ki = {
-    init: function (self$2117, ns_name$2118) {
-        if (_ki.namespaces[ns_name$2118] === undefined) {
-            _ki.namespaces[ns_name$2118] = { vars: {} };
+    init: function (self$1529, ns_name$1530) {
+        if (_ki.namespaces[ns_name$1530] === undefined) {
+            _ki.namespaces[ns_name$1530] = { vars: {} };
         }
-        self$2117._ki_ns_name = ns_name$2118;
-        self$2117._ki_ns_ctx = self$2117;
-        _ki.intern.bind(self$2117)(_ki.modules.core);
-        _ki.intern.bind(self$2117)(_ki.modules.mori);
-        _ki.intern.bind(self$2117)(_ki.modules);
-        _ki.intern.bind(self$2117)(_ki.namespaces[_ki_ns_name].vars);
+        self$1529._ki_ns_name = ns_name$1530;
+        self$1529._ki_ns_ctx = self$1529;
+        _ki.intern.bind(self$1529)(_ki.modules.core);
+        _ki.intern.bind(self$1529)(_ki.modules.mori);
+        _ki.intern.bind(self$1529)(_ki.modules);
+        _ki.intern.bind(self$1529)(_ki.namespaces[_ki_ns_name].vars);
     },
-    intern: function (obj$2119) {
-        for (var e$2120 in obj$2119) {
-            this[e$2120] = obj$2119[e$2120];
+    intern: function (obj$1531) {
+        for (var e$1532 in obj$1531) {
+            this[e$1532] = obj$1531[e$1532];
         }
     },
     namespaces: {},
     modules: {
         core: {
-            truthy: function (x$2121) {
-                return x$2121 === false || x$2121 == null ? false : true;
+            truthy: function (x$1533) {
+                return x$1533 === false || x$1533 == null ? false : true;
             },
-            falsey: function (x$2122) {
-                return !truthy(x$2122);
+            falsey: function (x$1534) {
+                return !truthy(x$1534);
             },
-            not: function (x$2123) {
-                return !truthy(x$2123);
+            not: function (x$1535) {
+                return !truthy(x$1535);
             },
             eq: function () {
                 return equals.apply(null, arguments);
@@ -34,69 +34,69 @@ _ki = {
                 return !equals.apply(null, arguments);
             },
             add: function () {
-                var res$2124 = 0;
-                for (var i$2125 = 0; i$2125 < arguments.length; i$2125++) {
-                    res$2124 += arguments[i$2125];
+                var res$1536 = 0;
+                for (var i$1537 = 0; i$1537 < arguments.length; i$1537++) {
+                    res$1536 += arguments[i$1537];
                 }
-                return res$2124;
+                return res$1536;
             },
             sub: function () {
-                var res$2126 = arguments[0];
-                for (var i$2127 = 1; i$2127 < arguments.length; i$2127++) {
-                    res$2126 -= arguments[i$2127];
+                var res$1538 = arguments[0];
+                for (var i$1539 = 1; i$1539 < arguments.length; i$1539++) {
+                    res$1538 -= arguments[i$1539];
                 }
-                return res$2126;
+                return res$1538;
             },
             mul: function () {
-                var res$2128 = 1;
-                for (var i$2129 = 0; i$2129 < arguments.length; i$2129++) {
-                    res$2128 *= arguments[i$2129];
+                var res$1540 = 1;
+                for (var i$1541 = 0; i$1541 < arguments.length; i$1541++) {
+                    res$1540 *= arguments[i$1541];
                 }
-                return res$2128;
+                return res$1540;
             },
             div: function () {
-                var res$2130 = arguments[0];
-                for (var i$2131 = 1; i$2131 < arguments.length; i$2131++) {
-                    res$2130 /= arguments[i$2131];
+                var res$1542 = arguments[0];
+                for (var i$1543 = 1; i$1543 < arguments.length; i$1543++) {
+                    res$1542 /= arguments[i$1543];
                 }
-                return res$2130;
+                return res$1542;
             },
-            mod: function (a$2132, b$2133) {
-                return a$2132 % b$2133;
+            mod: function (a$1544, b$1545) {
+                return a$1544 % b$1545;
             },
             lt: function () {
-                var res$2134 = true;
-                for (var i$2135 = 0; i$2135 < arguments.length - 1; i$2135++) {
-                    res$2134 = res$2134 && arguments[i$2135] < arguments[i$2135 + 1];
-                    if (!res$2134)
+                var res$1546 = true;
+                for (var i$1547 = 0; i$1547 < arguments.length - 1; i$1547++) {
+                    res$1546 = res$1546 && arguments[i$1547] < arguments[i$1547 + 1];
+                    if (!res$1546)
                         break;
                 }
-                return res$2134;
+                return res$1546;
             },
             gt: function () {
-                var res$2136 = true;
-                for (var i$2137 = 0; i$2137 < arguments.length - 1; i$2137++) {
-                    res$2136 = res$2136 && arguments[i$2137] > arguments[i$2137 + 1];
-                    if (!res$2136)
+                var res$1548 = true;
+                for (var i$1549 = 0; i$1549 < arguments.length - 1; i$1549++) {
+                    res$1548 = res$1548 && arguments[i$1549] > arguments[i$1549 + 1];
+                    if (!res$1548)
                         break;
                 }
-                return res$2136;
+                return res$1548;
             },
             leq: function () {
-                var res$2138 = true;
-                for (var i$2139 = 0; i$2139 < arguments.length - 1; i$2139++) {
-                    res$2138 = res$2138 && arguments[i$2139] <= arguments[i$2139 + 1];
-                    if (!res$2138)
+                var res$1550 = true;
+                for (var i$1551 = 0; i$1551 < arguments.length - 1; i$1551++) {
+                    res$1550 = res$1550 && arguments[i$1551] <= arguments[i$1551 + 1];
+                    if (!res$1550)
                         break;
                 }
-                return res$2138;
+                return res$1550;
             },
             geq: function () {
-                var res$2140 = true;
-                for (var i$2141 = 0; i$2141 < arguments.length - 1; i$2141++) {
-                    res$2140 = res$2140 && arguments[i$2141] >= arguments[i$2141 + 1];
+                var res$1552 = true;
+                for (var i$1553 = 0; i$1553 < arguments.length - 1; i$1553++) {
+                    res$1552 = res$1552 && arguments[i$1553] >= arguments[i$1553 + 1];
                 }
-                return res$2140;
+                return res$1552;
             },
             prn: function () {
                 console.log.apply(console, arguments);
@@ -108,10 +108,10 @@ _ki = {
         mori: function () {
             try {
                 return require('ki/node_modules/mori');
-            } catch (e$2142) {
+            } catch (e$1554) {
                 try {
                     return require('mori');
-                } catch (e$2143) {
+                } catch (e$1555) {
                     return mori;
                 }
             }
@@ -123,8 +123,8 @@ _ki = {
     return function () {
         _ki.init(this, 'datomiki');
         (function () {
-            _ki_ns_ctx['conn'] = function (opts$2154) {
-                return opts$2154.uri;
+            _ki_ns_ctx['conn'] = function (opts$1566) {
+                return opts$1566.uri;
             };
             _ki.namespaces[_ki_ns_name].vars.conn = _ki_ns_ctx['conn'];
             return _ki_ns_ctx['conn'];

@@ -26,6 +26,9 @@ ki (ns datomiki
     // still good to have names that are easier for congnitive parsing
     (js_to_clj data))
 
+  (defn jsonize [data]
+    (JSON.parse (clj_to_js data)))
+
   (defn opts
     // get the default options or such to call request with
     ([] base) // the base default options
@@ -38,13 +41,17 @@ ki (ns datomiki
 
   (defn response [res o]
     // takes care of the response
+    (let [body (if (and (equals "json" (js o.format))
+                        (equals "application/edn" (js o.accept)))
+                   (js jsonize(res.body))
+                   (js res.body))]
     (if (js o.response)
       res // true, pass on verbatim
       (if (equals "json" (js o.format))
-        (clj_to_js {"code" (js res.statusCode)
-                    "body" (clj_to_js (js res.body))})
+        (js {"code": res.statusCode,
+             "body": body})
         {:code (js res.statusCode)
-         :body (js res.body)})))
+         :body (js body)}))))
 
   (defn req [o cb]
     // make a request

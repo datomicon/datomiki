@@ -32,5 +32,5 @@ describe "datomiki", ->
     it "can get a list of storage aliases", (done) ->
       d.aliases {}, (err, res) ->
         ok res
-        #console.log res.body
+        (typeof res.body).should.equal "object"
         done()

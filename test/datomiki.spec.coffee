@@ -30,7 +30,7 @@ describe "datomiki", ->
 
   describe "aliases", ->
     it "can get a list of storage aliases", (done) ->
-      d.aliases {}, (err, res) ->
+      d.aliases (err, res) ->
         ok res
         (typeof res.body).should.equal "object"
         done()

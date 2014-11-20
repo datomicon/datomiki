@@ -1,13 +1,14 @@
 {
   "name": "datomiki",
-  "description": "datomic rest client in ki / js",
+  "description": "datomic rest js client in ki",
   "keywords": [
     "datomic",
     "rest",
+    "javascript",
     "client",
     "ki"
   ],
-  "version": "0.0.0-1",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/orlin/datomiki.git"

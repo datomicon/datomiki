@@ -18,7 +18,8 @@ ki (ns datomiki
              "data" {}
              "accept" "application/edn"
              "format" "json" // use "edn" if preferred
-             "response" false})
+             "resmod" true // false if you want to see what request does
+            })
 
   (defn edenize [data]
     // make sure data is in edn format
@@ -41,16 +42,15 @@ ki (ns datomiki
           "headers" {"accept" (get o "accept")}))))
 
   (defn response [res o]
-    // takes care of the response
-    (if (js ! o.response)
-      // a false response is a modified response
+    // the response, with mods
+    (if (js o.resmod)
       (if (equals "json" (js o.format))
         (js {"code": res.statusCode,
              "body": (o.accept == "application/edn") ?
                       jsonize(res.body) : res.body})
         {:code (js res.statusCode)
          :body (js res.body)})
-      // a true response means unchanged
+      // perhaps for debugging -- request's json, though the body format is edn
       res))
 
   (defn req [o cb]

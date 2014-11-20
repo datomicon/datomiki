@@ -20,20 +20,21 @@ ki (ns datomiki
              "format" "json" // use "edn" if preferred
              "response" false})
 
-  (defn ednize [data]
+  (defn edenize [data]
     // make sure data is in edn format
     // it appears js_to_clj can run ok 2 times in a row on the same data
     // still good to have names that are easier for congnitive parsing
     (js_to_clj data))
 
   (defn jsonize [data]
+    // TODO: any faster JSON parsers?
     (JSON.parse (clj_to_js data)))
 
   (defn opts
     // get the default options or such to call request with
     ([] base) // the base default options
     ([opts] // one must, at least, change the url
-      (let [o (merge base (ednize opts))]
+      (let [o (merge base (edenize opts))]
         (assoc o
           "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
@@ -41,16 +42,16 @@ ki (ns datomiki
 
   (defn response [res o]
     // takes care of the response
-    (let [body (js (o.format == "json" &&
-                    o.accept == "application/edn") ?
-                    jsonize(res.body) : res.body)]
-      (if (js o.response)
-        res // true, pass on verbatim
-        (if (equals "json" (js o.format))
-          (js {"code": res.statusCode,
-               "body": body})
-          {:code (js res.statusCode)
-           :body (js body)}))))
+    (if (js ! o.response)
+      // a false response is a modified response
+      (if (equals "json" (js o.format))
+        (js {"code": res.statusCode,
+             "body": (o.accept == "application/edn") ?
+                      jsonize(res.body) : res.body})
+        {:code (js res.statusCode)
+         :body (js res.body)})
+      // a true response means unchanged
+      res))
 
   (defn req [o cb]
     // make a request
@@ -59,7 +60,7 @@ ki (ns datomiki
 
   (defn aliases [o cb]
     // list aliases
-    (req (merge (ednize o) {"url" "/data/"}) cb))
+    (req (merge (edenize o) {"url" "/data/"}) cb))
 
   (defn cdb [opts]
     "create database")

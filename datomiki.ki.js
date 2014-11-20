@@ -41,17 +41,16 @@ ki (ns datomiki
 
   (defn response [res o]
     // takes care of the response
-    (let [body (if (and (equals "json" (js o.format))
-                        (equals "application/edn" (js o.accept)))
-                   (js jsonize(res.body))
-                   (js res.body))]
-    (if (js o.response)
-      res // true, pass on verbatim
-      (if (equals "json" (js o.format))
-        (js {"code": res.statusCode,
-             "body": body})
-        {:code (js res.statusCode)
-         :body (js body)}))))
+    (let [body (js (o.format == "json" &&
+                    o.accept == "application/edn") ?
+                    jsonize(res.body) : res.body)]
+      (if (js o.response)
+        res // true, pass on verbatim
+        (if (equals "json" (js o.format))
+          (js {"code": res.statusCode,
+               "body": body})
+          {:code (js res.statusCode)
+           :body (js body)}))))
 
   (defn req [o cb]
     // make a request

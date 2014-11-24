@@ -25,9 +25,10 @@
     "request": "^2.48.0"
   },
   "devDependencies": {
-    "mori": "*",
+    "childish-process": "0.0.1",
     "coffee-script": "*",
     "mocha": "*",
+    "mori": "*",
     "should": "*"
   },
   "scripts": {

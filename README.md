@@ -8,7 +8,6 @@ Must first download `datomic-free` (check `project.clj` about which version),
 extract it to `datomic/` and run `lein datomic start`.
 Also, run the `bin/rest` server.  This will be automated.
 
-## Unlicensed
+## License
 
-This is free and unencumbered public domain software.
-For more information, see [UNLICENSE](http://unlicense.org).
+[MIT](http://orlin.mit-license.org)

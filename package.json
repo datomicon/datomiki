@@ -11,11 +11,11 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/orlin/datomiki.git"
+    "url": "git://github.com/datomicon/datomiki.git"
   },
   "bugs": {
     "mail": "om@soundsapiens.com",
-    "url": "https://github.com/orlin/datomiki/issues"
+    "url": "https://github.com/datomicon/datomiki/issues"
   },
   "author": "Orlin M Bozhinov <om@soundsapiens.com>",
   "contributors": [],
@@ -41,8 +41,8 @@
   },
   "licenses": [
     {
-      "type": "Unlicense",
-      "url": "http://unlicense.org/"
+      "type": "MIT",
+      "url": "http://orlin.mit-license.org"
     }
   ]
 }

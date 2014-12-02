@@ -1,12 +1,14 @@
 # datomiki - datomic rest js client in ki
 
+[![NPM](https://nodei.co/npm/datomiki.png?mini=true)](https://www.npmjs.org/package/datomiki)
+
 A work in progress ...
 
 ## Testing
 
-Must first download `datomic-free` (check `project.clj` about which version),
-extract it to `datomic/` and run `lein datomic start`.
-Also, run the `bin/rest` server.  This will be automated.
+0. `datomic-free use 0.9.5067` (run only once, and soon not at all)
+1. `npm run servers`
+2. `npm test`
 
 ## License
 

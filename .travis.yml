@@ -8,7 +8,7 @@ install:
   - npm install
 before_script:
   - datomic-free use 0.9.5067
-  - npm run servers &
+  - npm run servers
 notifications:
   email:
     recipients:

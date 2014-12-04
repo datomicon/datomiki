@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - 0.10
+branches:
+  only:
+    - test
+install:
+  - datomic-free use 0.9.5067
+before_script: npm run servers &
+notifications:
+  email:
+    recipients:
+      - om@soundsapiens.com
+    on_success: change
+    on_failure: always

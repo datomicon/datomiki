@@ -5,8 +5,10 @@ branches:
   only:
     - test
 install:
+  - npm install
+before_script:
   - datomic-free use 0.9.5067
-before_script: npm run servers &
+  - npm run servers &
 notifications:
   email:
     recipients:

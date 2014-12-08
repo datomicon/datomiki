@@ -8,10 +8,10 @@ install:
   - npm install
 before_script:
   - npm run servers & # in the background
+  - sleep 42 # have not any idea, exactly for how long to sleep yet
 notifications:
   email:
     recipients:
-      - sleep 42 # have not any idea, for exactly how long to sleep yet
       - om@soundsapiens.com
     on_success: change
     on_failure: always

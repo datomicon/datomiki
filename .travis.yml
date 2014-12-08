@@ -5,7 +5,7 @@ branches:
   only:
     - test
 install:
-  - npm install
+  - npm install # should be ok
 before_script:
   - npm run servers
 notifications:

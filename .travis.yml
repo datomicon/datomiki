@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - 0.10
+branches:
+  only:
+    - active
+install:
+  - npm install
+before_script:
+  - npm run servers & # in the background
+  - sleep 42 # have not any idea, exactly for how long to sleep yet
+notifications:
+  email:
+    recipients:
+      - om@soundsapiens.com
+    on_success: change
+    on_failure: always

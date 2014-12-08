@@ -5,9 +5,9 @@ branches:
   only:
     - test
 install:
-  - npm install # should be ok
+  - npm install
 before_script:
-  - npm run servers
+  - npm run servers & # in the background
 notifications:
   email:
     recipients:

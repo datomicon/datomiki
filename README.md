@@ -4,7 +4,7 @@
 
 A work in progress ...
 
-## Testing
+## Testing [![Build Status](https://secure.travis-ci.org/datomicon/datomiki.png)](http://travis-ci.org/datomicon/datomiki)
 
 1. `npm run servers`
 2. `npm test`

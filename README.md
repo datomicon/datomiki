@@ -6,7 +6,6 @@ A work in progress ...
 
 ## Testing
 
-0. `datomic-free use 0.9.5067` (run only once, and soon not at all)
 1. `npm run servers`
 2. `npm test`
 

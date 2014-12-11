@@ -8,7 +8,7 @@ install:
   - npm install
 before_script:
   - npm run servers &
-  - ./node_modules/.bin/coffee ./test/wait-up.coffee
+  - ./node_modules/.bin/wait-up $(./node_modules/.bin/coffee ./test/make-uri.coffee)
 notifications:
   email:
     recipients:

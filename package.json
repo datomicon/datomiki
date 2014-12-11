@@ -30,7 +30,7 @@
     "mocha": "*",
     "mori": "*",
     "should": "*",
-    "wait": "^0.1.0"
+    "wait-up": "*"
   },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",

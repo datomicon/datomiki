@@ -24,12 +24,13 @@
     "request": "^2.48.0"
   },
   "devDependencies": {
-    "ki": "^0.1.29",
     "coffee-script": "*",
     "dbin": "*",
+    "ki": "^0.1.29",
     "mocha": "*",
     "mori": "*",
-    "should": "*"
+    "should": "*",
+    "wait": "^0.1.0"
   },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",

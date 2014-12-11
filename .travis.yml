@@ -7,8 +7,8 @@ branches:
 install:
   - npm install
 before_script:
-  - npm run servers & # in the background
-  - sleep 42 # have not any idea, exactly for how long to sleep yet
+  - npm run servers &
+  - ./node_modules/.bin/coffee ./test/wait-up.coffee
 notifications:
   email:
     recipients:

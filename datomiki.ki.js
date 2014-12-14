@@ -9,7 +9,7 @@ ki (ns datomiki
 
   (def // default options
        base {"uri" "http://localhost:8888" // the url will be appended to it
-             "alias" "free" // the storage alias
+             "alias" "let" // the storage alias
              "named" "test" // the name of the db
              "db" "" // becomes :db/alias
              "url" "/"

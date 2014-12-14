@@ -29,8 +29,7 @@
     "ki": "^0.1.29",
     "mocha": "*",
     "mori": "*",
-    "should": "*",
-    "wait-up": "*"
+    "should": "*"
   },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",

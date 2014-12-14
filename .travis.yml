@@ -4,11 +4,12 @@ node_js:
 branches:
   only:
     - active
+    - test
 install:
   - npm install
 before_script:
   - npm run servers &
-  - ./node_modules/.bin/wait-up $(./node_modules/.bin/coffee ./test/make-uri.coffee)
+  - dbin gets-ok?
 notifications:
   email:
     recipients:

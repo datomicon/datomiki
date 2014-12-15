@@ -6,10 +6,11 @@ ki require core
 ki (ns datomiki
 
   (def request (require "request"))
+  (def d (.use (require "dbin")))
 
   (def // default options
-       base {"uri" "http://localhost:8888" // the url will be appended to it
-             "alias" "let" // the storage alias
+       base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
+             "alias" (js d.cfg.rest.alias) // the storage alias
              "named" "test" // the name of the db
              "db" "" // becomes :db/alias
              "url" "/"

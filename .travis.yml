@@ -4,11 +4,12 @@ node_js:
 branches:
   only:
     - active
+    - test
 install:
   - npm install
 before_script:
-  - npm run servers & # in the background
-  - sleep 42 # have not any idea, exactly for how long to sleep yet
+  - npm run servers &
+  - dbin gets-ok?
 notifications:
   email:
     recipients:

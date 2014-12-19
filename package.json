@@ -21,11 +21,11 @@
   "contributors": [],
   "main": "datomiki",
   "dependencies": {
+    "dbin": "*",
     "request": "^2.48.0"
   },
   "devDependencies": {
     "coffee-script": "*",
-    "dbin": "*",
     "ki": "^0.1.29",
     "mocha": "*",
     "mori": "*",

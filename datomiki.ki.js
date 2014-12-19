@@ -6,7 +6,7 @@ ki require core
 ki (ns datomiki
 
   (def request (require "request"))
-  (def d (.use (require "dbin")))
+  (def d (.use (require "dbin"))) // just for defaults
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it

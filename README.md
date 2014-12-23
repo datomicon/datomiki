@@ -4,10 +4,10 @@
 
 A work in progress ...
 
-## Testing [![Build Status](https://secure.travis-ci.org/datomicon/datomiki.png)](http://travis-ci.org/datomicon/datomiki)
+## Testing [![Build Status](https://img.shields.io/travis/datomicon/datomiki.svg?style=flat)](https://travis-ci.org/datomicon/datomiki)
 
-1. `npm run servers`
-2. `npm test`
+1. $ `npm start` # the transactor and rest servers
+2. $ `npm test`
 
 ## License
 

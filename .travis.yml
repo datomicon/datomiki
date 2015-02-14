@@ -3,8 +3,9 @@ node_js:
   - 0.12
 branches:
   only:
-    - active
     - test
+    - active
+    - master
 install:
   - npm install
 before_script:

@@ -8,7 +8,7 @@
     "client",
     "ki"
   ],
-  "version": "0.0.2",
+  "version": "0.0.2-1",
   "repository": {
     "type": "git",
     "url": "git://github.com/datomicon/datomiki.git"
@@ -21,24 +21,24 @@
   "contributors": [],
   "main": "datomiki",
   "dependencies": {
-    "request": "^2.48.0"
+    "dbin": "*",
+    "request": "^2.53.0"
   },
   "devDependencies": {
     "coffee-script": "*",
-    "dbin": "*",
-    "ki": "^0.1.29",
+    "ki": "~0.2.0",
+    "mori": "~0.3.2",
     "mocha": "*",
-    "mori": "*",
     "should": "*"
   },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",
-    "compile": "./node_modules/.bin/ki -o datomiki.js datomiki.ki.js",
-    "servers": "./node_modules/.bin/dbin -tr",
+    "make": "./node_modules/.bin/ki -o datomiki.js datomiki.ki.js",
+    "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "0.12.x || 0.10.x"
   },
   "licenses": [
     {

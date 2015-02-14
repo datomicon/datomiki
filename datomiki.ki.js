@@ -6,7 +6,7 @@ ki require core
 ki (ns datomiki
 
   (def request (require "request"))
-  (def d (.use (require "dbin")))
+  (def d (.use (require "dbin"))) // just for defaults
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
@@ -24,13 +24,13 @@ ki (ns datomiki
 
   (defn edenize [data]
     // make sure data is in edn format
-    // it appears js_to_clj can run ok 2 times in a row on the same data
+    // it appears toClj can run ok 2 times in a row on the same data
     // still good to have names that are easier for congnitive parsing
-    (js_to_clj data))
+    (toClj data))
 
   (defn jsonize [data]
     // TODO: any faster JSON parsers?
-    (JSON.parse (clj_to_js data)))
+    (JSON.parse (toJs data)))
 
   (defn opts
     // get the default options or such to call request with
@@ -56,7 +56,7 @@ ki (ns datomiki
 
   (defn req [o cb]
     // make a request
-    (let [o (clj_to_js (opts o))]
+    (let [o (toJs (opts o))]
       (request o (fn [err res] (cb err (response res o))))))
 
   (defn aliases

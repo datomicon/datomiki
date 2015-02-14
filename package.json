@@ -27,8 +27,8 @@
   "devDependencies": {
     "coffee-script": "*",
     "ki": "^0.1.29",
+    "mori": "0.2.x",
     "mocha": "*",
-    "mori": "*",
     "should": "*"
   },
   "scripts": {

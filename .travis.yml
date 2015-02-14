@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 0.10
+  - 0.12
 branches:
   only:
     - active
@@ -8,7 +8,7 @@ branches:
 install:
   - npm install
 before_script:
-  - npm run servers &
+  - npm start &
   - dbin gets-ok?
 notifications:
   email:

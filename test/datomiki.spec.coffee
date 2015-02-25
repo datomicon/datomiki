@@ -3,8 +3,9 @@
 d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
+assert = require("assert")
 
-ok = (res) -> res.code.should.eql 200
+ok = (res) -> assert (res.code == 200 || res.code == 201), "code #{res.code}"
 
 describe "datomiki", ->
   base = toJs(d.opts())
@@ -33,4 +34,21 @@ describe "datomiki", ->
       d.aliases (err, res) ->
         ok res
         (typeof res.body).should.equal "object"
+        done()
+
+  describe "create database", ->
+    it "creates the default test database if it doesn't already exist", (done) ->
+      d.cdb (err, res) ->
+        ok res # 201 if created, 200 if already exists
+        done()
+    it "explicitly creates the test database again, still ok", (done) ->
+      d.cdb "test", (err, res) ->
+        ok res # 200 for sure
+        done()
+
+  describe "query", ->
+    it "can query the database", (done) ->
+      d.q "{:q [:find ?e ?doc :where [?e :db/doc ?doc]] :limit 1
+            :args [{:db/alias \"let/test\" }]}", (err, res) ->
+        ok res
         done()

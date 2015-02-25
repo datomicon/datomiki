@@ -7,6 +7,7 @@ ki (ns datomiki
 
   (def request (require "request"))
   (def d (.use (require "dbin"))) // just for defaults
+  (def edn (require "jsedn"))
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
@@ -17,8 +18,9 @@ ki (ns datomiki
              "basis" "-" // the basis-t
              "method" "get"
              "data" {}
+             "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
-             "format" "json" // use "edn" if preferred
+             "format" "json" // anything else (e.g. "text", "edn") is left as is
              "resmod" true // false if you want to see what request does
             })
 
@@ -29,8 +31,7 @@ ki (ns datomiki
     (toClj data))
 
   (defn jsonize [data]
-    // TODO: any faster JSON parsers?
-    (JSON.parse (toJs data)))
+    (edn.toJS (edn.parse data)))
 
   (defn opts
     // get the default options or such to call request with
@@ -40,7 +41,8 @@ ki (ns datomiki
         (assoc o
           "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
-          "headers" {"accept" (get o "accept")}))))
+          "headers" { "Accept" (get o "accept")
+                      "Content-Type" (get o "content-type") } ))))
 
   (defn response [res o]
     // the response, with mods
@@ -62,10 +64,17 @@ ki (ns datomiki
   (defn aliases
     // list aliases
     ([cb] (aliases {} cb))
-    ([o cb](req (merge (edenize o) {"url" "/data/"}) cb)))
+    ([o cb] (req (merge (edenize o) {"url" "/data/"}) cb)))
 
-  (defn cdb [opts]
-    "create database")
+  (defn cdb
+    // create database
+    ([cb] (cdb (get base "named") {} cb))
+    ([name cb] (cdb name {} cb))
+    ([name o cb] (req (merge (edenize o)
+                        { "url" (str "/data/" (get base "alias") "/")
+                          "method" "post"
+                          "body" (str "{:db-name \"" name "\"}") })
+                      cb)))
 
   (defn dbs [opts]
     "list databases")
@@ -82,12 +91,20 @@ ki (ns datomiki
   (defn entity [opts]
     "retrieve entity")
 
-  (defn q [opts]
-    "query")
+  (defn q
+    // query
+    ([query cb] (q query {} cb))
+    ([query o cb] (req (merge (edenize o)
+                              { "url" "/api/query"
+                                "method" "post"
+                                "body" query })
+                        cb)))
 
   (defn events [opts]
     "subscribe to events")
 
   (export opts)
   (export req)
-  (export aliases))
+  (export aliases)
+  (export cdb)
+  (export q))

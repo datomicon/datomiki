@@ -13,7 +13,7 @@ ki (ns datomiki
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
              "named" "test" // the name of the db
-             "db" "" // becomes :db/alias
+             "db" "" // a value for :db/alias (assembled late in the req, so, useless?)
              "url" "/"
              "basis" "-" // the basis-t
              "method" "get"
@@ -97,7 +97,13 @@ ki (ns datomiki
     ([query o cb] (req (merge (edenize o)
                               { "url" "/api/query"
                                 "method" "post"
-                                "body" query })
+                                "body" (str "{:q "
+                                            query
+                                            " :args [{:db/alias \""
+                                            (get base "alias")
+                                            "/"
+                                            (get base "named")
+                                            "\"}]}") })
                         cb)))
 
   (defn events [opts]

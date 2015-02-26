@@ -47,8 +47,7 @@ describe "datomiki", ->
         done()
 
   describe "query", ->
-    it "can query the database", (done) ->
-      d.q "{:q [:find ?e ?doc :where [?e :db/doc ?doc]] :limit 1
-            :args [{:db/alias \"let/test\" }]}", (err, res) ->
+    it "can query the default database", (done) ->
+      d.q "[:find ?e ?doc :where [?e :db/doc ?doc]]", (err, res) ->
         ok res
         done()

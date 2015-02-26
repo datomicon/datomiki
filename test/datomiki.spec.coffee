@@ -6,10 +6,11 @@ request = require("request")
 assert = require("assert")
 
 ok = (res) ->
-  unless res.code == 200 || res.code == 201
+  code = if res.code? then "code" else "statusCode"
+  unless res[code] == 200 || res[code] == 201
     # ki.jsonize already logs what strings it cannot parse
     console.log res.body unless typeof res.body is "string"
-    assert false, "code #{res.code}"
+    assert false, "code #{res[code]}"
 
 describe "datomiki", ->
   base = toJs(d.opts())
@@ -37,7 +38,6 @@ describe "datomiki", ->
     it "can get a list of storage aliases", (done) ->
       d.aliases (err, res) ->
         ok res
-        (typeof res.body).should.equal "object"
         done()
 
   describe "create database", ->

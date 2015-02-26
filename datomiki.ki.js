@@ -12,8 +12,7 @@ ki (ns datomiki
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
-             "named" "test" // the name of the db
-             "db" "" // a value for :db/alias (assembled late in the req, so, useless?)
+             "db" "test" // the name of the db
              "url" "/"
              "basis" "-" // the basis-t
              "method" "get"
@@ -48,7 +47,6 @@ ki (ns datomiki
     ([opts] // one must, at least, change the url
       (let [o (if (get opts "pre") opts (merge base (edenize opts)))]
         (assoc o
-          "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
           "headers" { "Accept" (get o "accept")
                       "Content-Type" (get o "content-type") } ))))
@@ -77,7 +75,7 @@ ki (ns datomiki
 
   (defn cdb
     // create database
-    ([cb] (cdb (get base "named") {} cb))
+    ([cb] (cdb (get base "db") {} cb))
     ([name cb] (cdb name {} cb))
     ([name o cb]
       (let [o (preopts o)]
@@ -105,13 +103,20 @@ ki (ns datomiki
     // query
     ([query cb] (q query {} cb))
     ([query o cb]
-      (let [o (preopts o)]
+      (let
+        [o (preopts o)
+         data (get o "data")
+         limit (if (get data "limit") (str " :limit " (get data "limit")) "")
+         offset (if (get data "offset")
+                    (str " :offset " (get data "offset")) "")]
         (req (merge (edenize o)
                     { "url" "/api/query"
                       "method" "post"
                       "body" (str "{:q " query
+                                  limit
+                                  offset
                                   " :args [{:db/alias \""
-                                  (get o "alias") "/" (get o "named")
+                                  (get o "alias") "/" (get o "db")
                                   "\"}]}") })
               cb))))
 

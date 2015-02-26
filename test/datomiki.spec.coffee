@@ -16,9 +16,8 @@ describe "datomiki", ->
   base = toJs(d.opts())
 
   describe "opts", ->
-    it "should assemble a db alias and a url", ->
+    it "should assemble a uri", ->
       opts = toJs(d.opts({}))
-      opts.db.should.equal base.alias + "/" + base.named
       opts.uri.should.equal base.uri + base.url
 
   describe "request", ->
@@ -54,4 +53,9 @@ describe "datomiki", ->
     it "can query the default database", (done) ->
       d.q "[:find ?e ?doc :where [?e :db/doc ?doc]]", (err, res) ->
         ok res
+        done()
+    it "can query a specified database with limit", (done) ->
+      d.q "[:find ?e ?doc :where [?e :db/doc ?doc]]", {db: "test", data: {limit: 3}}, (err, res) ->
+        ok res
+        count(res.body).should.eql 3
         done()

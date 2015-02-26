@@ -79,7 +79,7 @@ ki (ns datomiki
     ([name cb] (cdb name {} cb))
     ([name o cb]
       (let [o (preopts o)]
-        (req (merge o { "url" (str "/data/" (get base "alias") "/")
+        (req (merge o { "url" (str "/data/" (get o "alias") "/")
                         "method" "post"
                         "body" (str "{:db-name \"" name "\"}") })
              cb))))

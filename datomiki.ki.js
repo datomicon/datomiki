@@ -21,6 +21,7 @@ ki (ns datomiki
              "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
              "format" "json" // anything but json is left as is - a string
+             "pre" false // true if preopt was called, usually true
              "resmod" true // false if you want to see what request does
             })
 
@@ -37,11 +38,15 @@ ki (ns datomiki
         console.error(data);
         return data;))))
 
+  (defn preopts [opts]
+    // the opts are often needed early
+    (merge base (edenize opts) {"pre" true}))
+
   (defn opts
     // get the default options or such to call request with
     ([] base) // the base default options
     ([opts] // one must, at least, change the url
-      (let [o (merge base (edenize opts))]
+      (let [o (if (get opts "pre") opts (merge base (edenize opts)))]
         (assoc o
           "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
@@ -74,11 +79,12 @@ ki (ns datomiki
     // create database
     ([cb] (cdb (get base "named") {} cb))
     ([name cb] (cdb name {} cb))
-    ([name o cb] (req (merge (edenize o)
-                        { "url" (str "/data/" (get base "alias") "/")
-                          "method" "post"
-                          "body" (str "{:db-name \"" name "\"}") })
-                      cb)))
+    ([name o cb]
+      (let [o (preopts o)]
+        (req (merge o { "url" (str "/data/" (get base "alias") "/")
+                        "method" "post"
+                        "body" (str "{:db-name \"" name "\"}") })
+             cb))))
 
   (defn dbs [opts]
     "list databases")
@@ -98,17 +104,16 @@ ki (ns datomiki
   (defn q
     // query
     ([query cb] (q query {} cb))
-    ([query o cb] (req (merge (edenize o)
-                              { "url" "/api/query"
-                                "method" "post"
-                                "body" (str "{:q "
-                                            query
-                                            " :args [{:db/alias \""
-                                            (get base "alias")
-                                            "/"
-                                            (get base "named")
-                                            "\"}]}") })
-                        cb)))
+    ([query o cb]
+      (let [o (preopts o)]
+        (req (merge (edenize o)
+                    { "url" "/api/query"
+                      "method" "post"
+                      "body" (str "{:q " query
+                                  " :args [{:db/alias \""
+                                  (get o "alias") "/" (get o "named")
+                                  "\"}]}") })
+              cb))))
 
   (defn events [opts]
     "subscribe to events")

@@ -12,15 +12,15 @@ ki (ns datomiki
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
-             "named" "test" // the name of the db
-             "db" "" // becomes :db/alias
+             "db" "test" // the name of the db
              "url" "/"
              "basis" "-" // the basis-t
              "method" "get"
              "data" {}
              "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
-             "format" "json" // anything else (e.g. "text", "edn") is left as is
+             "format" "json" // anything but json is left as is - a string
+             "pre" false // true if preopt was called, usually true
              "resmod" true // false if you want to see what request does
             })
 
@@ -31,15 +31,22 @@ ki (ns datomiki
     (toClj data))
 
   (defn jsonize [data]
-    (edn.toJS (edn.parse data)))
+    (try (js return edn.toJS(edn.parse(data)))
+      (catch e (js
+        console.error("Exception: string isn't edn - " + e);
+        console.error(data);
+        return data;))))
+
+  (defn preopts [opts]
+    // the opts are often needed early
+    (merge base (edenize opts) {"pre" true}))
 
   (defn opts
     // get the default options or such to call request with
     ([] base) // the base default options
     ([opts] // one must, at least, change the url
-      (let [o (merge base (edenize opts))]
+      (let [o (if (get opts "pre") opts (merge base (edenize opts)))]
         (assoc o
-          "db" (str (get o "alias") "/" (get o "named"))
           "uri" (str (get o "uri") (get o "url"))
           "headers" { "Accept" (get o "accept")
                       "Content-Type" (get o "content-type") } ))))
@@ -68,13 +75,14 @@ ki (ns datomiki
 
   (defn cdb
     // create database
-    ([cb] (cdb (get base "named") {} cb))
+    ([cb] (cdb (get base "db") {} cb))
     ([name cb] (cdb name {} cb))
-    ([name o cb] (req (merge (edenize o)
-                        { "url" (str "/data/" (get base "alias") "/")
-                          "method" "post"
-                          "body" (str "{:db-name \"" name "\"}") })
-                      cb)))
+    ([name o cb]
+      (let [o (preopts o)]
+        (req (merge o { "url" (str "/data/" (get base "alias") "/")
+                        "method" "post"
+                        "body" (str "{:db-name \"" name "\"}") })
+             cb))))
 
   (defn dbs [opts]
     "list databases")
@@ -94,11 +102,23 @@ ki (ns datomiki
   (defn q
     // query
     ([query cb] (q query {} cb))
-    ([query o cb] (req (merge (edenize o)
-                              { "url" "/api/query"
-                                "method" "post"
-                                "body" query })
-                        cb)))
+    ([query o cb]
+      (let
+        [o (preopts o)
+         data (get o "data")
+         limit (if (get data "limit") (str " :limit " (get data "limit")) "")
+         offset (if (get data "offset")
+                    (str " :offset " (get data "offset")) "")]
+        (req (merge (edenize o)
+                    { "url" "/api/query"
+                      "method" "post"
+                      "body" (str "{:q " query
+                                  limit
+                                  offset
+                                  " :args [{:db/alias \""
+                                  (get o "alias") "/" (get o "db")
+                                  "\"}]}") })
+              cb))))
 
   (defn events [opts]
     "subscribe to events")

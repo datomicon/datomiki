@@ -20,7 +20,7 @@ ki (ns datomiki
              "data" {}
              "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
-             "format" "json" // anything else (e.g. "text", "edn") is left as is
+             "format" "json" // anything but json is left as is - a string
              "resmod" true // false if you want to see what request does
             })
 
@@ -31,7 +31,11 @@ ki (ns datomiki
     (toClj data))
 
   (defn jsonize [data]
-    (edn.toJS (edn.parse data)))
+    (try (js return edn.toJS(edn.parse(data)))
+      (catch e (js
+        console.error("Exception: string isn't edn - " + e);
+        console.error(data);
+        return data;))))
 
   (defn opts
     // get the default options or such to call request with

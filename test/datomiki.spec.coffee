@@ -5,7 +5,11 @@ toJs = require("mori").toJs
 request = require("request")
 assert = require("assert")
 
-ok = (res) -> assert (res.code == 200 || res.code == 201), "code #{res.code}"
+ok = (res) ->
+  unless res.code == 200 || res.code == 201
+    # ki.jsonize already logs what strings it cannot parse
+    console.log res.body unless typeof res.body is "string"
+    assert false, "code #{res.code}"
 
 describe "datomiki", ->
   base = toJs(d.opts())

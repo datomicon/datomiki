@@ -12,6 +12,8 @@ ok = (res) ->
     console.log res.body unless typeof res.body is "string"
     assert false, "code #{res[code]}"
 
+to = (v, fn) -> if typeof v is "object" then fn()
+
 describe "datomiki", ->
   base = toJs(d.opts())
 
@@ -57,5 +59,5 @@ describe "datomiki", ->
     it "can query a specified database with limit", (done) ->
       d.q "[:find ?e ?doc :where [?e :db/doc ?doc]]", {db: "test", data: {limit: 3}}, (err, res) ->
         ok res
-        count(res.body).should.eql 3
+        to res.body, -> count(res.body).should.eql 3
         done()

@@ -1,3 +1,6 @@
+//# sourceMappingURL=datomiki.js.map
+require("source-map-support").install()
+
 ki macro (export $name)
          (js exports.$name = $name)
 

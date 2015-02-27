@@ -14,9 +14,6 @@ tmp
 node_modules
 npm-debug.log
 
-# Source Maps
-*.js.map
-
 # Clojure
 *.jar
 *.class

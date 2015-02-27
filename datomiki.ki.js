@@ -12,7 +12,7 @@ ki (ns datomiki
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
-             "db" "test" // the name of the db
+             "db" (js d.cfg.rest.alias) // the default db
              "url" "/"
              "basis" "-" // the basis-t
              "method" "get"
@@ -79,7 +79,7 @@ ki (ns datomiki
     ([name cb] (cdb name {} cb))
     ([name o cb]
       (let [o (preopts o)]
-        (req (merge o { "url" (str "/data/" (get base "alias") "/")
+        (req (merge o { "url" (str "/data/" (get o "alias") "/")
                         "method" "post"
                         "body" (str "{:db-name \"" name "\"}") })
              cb))))

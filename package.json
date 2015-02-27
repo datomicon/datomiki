@@ -31,11 +31,12 @@
     "coffee-script": "^1.9.1",
     "mocha": "^2.1.0",
     "mori": "~0.3.2",
-    "should": "^5.0.1"
+    "should": "^5.0.1",
+    "source-map-support": "^0.2.9"
   },
   "scripts": {
-    "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",
-    "make": "./node_modules/.bin/ki -o datomiki.js datomiki.ki.js",
+    "work": "./node_modules/.bin/ki -s -u -c -w -o datomiki.js datomiki.ki.js",
+    "make": "./node_modules/.bin/ki -s -u -c -o datomiki.js datomiki.ki.js",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
   },

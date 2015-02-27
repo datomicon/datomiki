@@ -12,7 +12,7 @@ ki (ns datomiki
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
-             "db" "test" // the name of the db
+             "db" (js d.cfg.rest.alias) // the default db
              "url" "/"
              "basis" "-" // the basis-t
              "method" "get"

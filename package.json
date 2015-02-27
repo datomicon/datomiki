@@ -21,17 +21,17 @@
   "contributors": [],
   "main": "datomiki",
   "dependencies": {
-    "dbin": "*",
+    "dbin": "0.0.8",
     "jsedn": "^0.3.5",
     "request": "^2.53.0"
   },
   "devDependencies": {
-    "coffee-script": "*",
+    "assert": "^1.3.0",
+    "coffee-script": "^1.9.1",
     "ki": "~0.2.0",
+    "mocha": "^2.1.0",
     "mori": "~0.3.2",
-    "mocha": "*",
-    "should": "*",
-    "assert": "^1.3.0"
+    "should": "^5.0.1"
   },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",

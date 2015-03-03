@@ -4,6 +4,7 @@ d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
 assert = require("assert")
+isPromise = require("is-promise")
 
 ok = (res) ->
   code = if res.code? then "code" else "statusCode"
@@ -39,6 +40,12 @@ describe "datomiki", ->
     it "can get a list of storage aliases", (done) ->
       d.aliases (err, res) ->
         ok res
+        done()
+    it "is also a promise", (done) ->
+      res = d.aliases()
+      isPromise res
+      res.then (res) ->
+        ok d.re(res)
         done()
 
   describe "create database", ->

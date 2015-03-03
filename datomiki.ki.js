@@ -8,7 +8,7 @@ ki require core
 
 ki (ns datomiki
 
-  (def request (require "request"))
+  (def request (require "request-promise"))
   (def d (.use (require "dbin"))) // just for defaults
   (def edn (require "jsedn"))
 
@@ -24,7 +24,8 @@ ki (ns datomiki
              "accept" "application/edn"
              "format" "json" // anything but json is left as is - a string
              "pre" false // true if preopt was called, usually true
-             "resmod" true // false if you want to see what request does
+             "resolveWithFullResponse" true // false = just the body String
+             "resmod" true // false = the full response (if resolveWithFullResponse)
             })
 
   (defn edenize [data]
@@ -54,22 +55,28 @@ ki (ns datomiki
           "headers" { "Accept" (get o "accept")
                       "Content-Type" (get o "content-type") } ))))
 
-  (defn response [res o]
-    // the response, with mods
-    (if (js o.resmod)
-      (if (equals "json" (js o.format))
-        (js {"code": res.statusCode,
-             "body": (o.accept == "application/edn") ?
-                      jsonize(res.body) : res.body})
-        {:code (js res.statusCode)
-         :body (js res.body)})
-      // perhaps for debugging -- request's json, though the body format is edn
-      res))
+  (defn re
+    // the response (with mods)
+    ([r]
+      (if (js typeof r.request == "object")
+        (re r (js r.request._rp_options))
+        (jsonize r))) // assume application/edn content-type
+    ([r o]
+      (if (js o.resmod)
+        (if (equals "json" (js o.format))
+          (js {"code": r.statusCode,
+               "body": (o.accept == "application/edn") ?
+                        jsonize(r.body) : r.body})
+          {:code (js r.statusCode)
+           :body (js r.body)})
+        r)))
 
   (defn req [o cb]
     // make a request
     (let [o (toJs (opts o))]
-      (request o (fn [err res] (cb err (response res o))))))
+      (if (falsey cb)
+        (request o)
+        (request o (fn [err res] (cb err (re res o)))))))
 
   (defn aliases
     // list aliases
@@ -128,6 +135,7 @@ ki (ns datomiki
 
   (export opts)
   (export req)
+  (export re)
   (export aliases)
   (export cdb)
   (export q))

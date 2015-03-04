@@ -12,6 +12,21 @@ ki (ns datomiki
   (def d (.use (require "dbin"))) // just for defaults
   (def edn (require "jsedn"))
 
+  (defn transform [body response]
+    (do
+      (js if (response.request._rp_options.format === "json" &&
+              response.headers["content-type"] === response.request._rp_options.expect) {
+            try { response.body = edn.toJS(edn.parse(body)); }
+            catch (e) {
+              console.error("Exception: string isn't edn - " + e);
+              console.error(body);
+            }
+          })
+      (if (js response.request._rp_options.resmod)
+          (js {"code": response.statusCode,
+               "body": response.body})
+          response)))
+
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
              "alias" (js d.cfg.rest.alias) // the storage alias
@@ -22,10 +37,11 @@ ki (ns datomiki
              "data" {}
              "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
-             "format" "json" // anything but json is left as is - a string
+             "expect" "application/edn;charset=UTF-8"
+             "format" "json" // if response body content-type is as "expect"-ed
+             "transform" transform // a request-promise option
              "pre" false // true if preopt was called, usually true
-             "resolveWithFullResponse" true // false = just the body String
-             "resmod" true // false = the full response (if resolveWithFullResponse)
+             "resmod" true // false to resolveWithFullResponse
             })
 
   (defn edenize [data]
@@ -33,13 +49,6 @@ ki (ns datomiki
     // it appears toClj can run ok 2 times in a row on the same data
     // still good to have names that are easier for congnitive parsing
     (toClj data))
-
-  (defn jsonize [data]
-    (try (js return edn.toJS(edn.parse(data)))
-      (catch e (js
-        console.error("Exception: string isn't edn - " + e);
-        console.error(data);
-        return data;))))
 
   (defn preopts [opts]
     // the opts are often needed early
@@ -55,28 +64,12 @@ ki (ns datomiki
           "headers" { "Accept" (get o "accept")
                       "Content-Type" (get o "content-type") } ))))
 
-  (defn re
-    // the response (with mods)
-    ([r]
-      (if (js typeof r.request == "object")
-        (re r (js r.request._rp_options))
-        (jsonize r))) // assume application/edn content-type
-    ([r o]
-      (if (js o.resmod)
-        (if (equals "json" (js o.format))
-          (js {"code": r.statusCode,
-               "body": (o.accept == "application/edn") ?
-                        jsonize(r.body) : r.body})
-          {:code (js r.statusCode)
-           :body (js r.body)})
-        r)))
-
   (defn req [o cb]
     // make a request
     (let [o (toJs (opts o))]
       (if (falsey cb)
         (request o)
-        (request o (fn [err res] (cb err (re res o)))))))
+        (request o (fn [err res] (cb err res))))))
 
   (defn aliases
     // list aliases
@@ -135,7 +128,6 @@ ki (ns datomiki
 
   (export opts)
   (export req)
-  (export re)
   (export aliases)
   (export cdb)
   (export q))

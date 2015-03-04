@@ -43,9 +43,9 @@ describe "datomiki", ->
         done()
     it "is also a promise", (done) ->
       res = d.aliases()
-      isPromise res
+      isPromise(res)
       res.then (res) ->
-        ok d.re(res)
+        ok res
         done()
 
   describe "create database", ->

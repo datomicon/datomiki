@@ -16,6 +16,7 @@ ki (ns datomiki
     (do
       (js if (response.request._rp_options.format === "json" &&
               response.headers["content-type"] === response.request._rp_options.expect) {
+            // it should mutate the body - making it json
             try { response.body = edn.toJS(edn.parse(body)); }
             catch (e) {
               console.error("Exception: string isn't edn - " + e);
@@ -42,6 +43,7 @@ ki (ns datomiki
              "transform" transform // a request-promise option
              "pre" false // true if preopt was called, usually true
              "resmod" true // false to resolveWithFullResponse
+             "simple" false // a request-promise option - no statusCode will throw an error
             })
 
   (defn edenize [data]

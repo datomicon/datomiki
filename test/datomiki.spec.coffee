@@ -3,6 +3,7 @@
 d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
+errors = require("request-promise/errors");
 assert = require("assert")
 isPromise = require("is-promise")
 
@@ -47,6 +48,20 @@ describe "datomiki", ->
       res.then (res) ->
         ok res
         done()
+
+  describe "a promised error for /data", ->
+    it "/data gets a 404, because a trailing / is expected", (done) ->
+      d.req(url: "/data", simple: true).then((res) ->
+          # this doesn't get called, can't even console.log
+        ).catch(errors.StatusCodeError, (reason) ->
+          # this cannot fail the test
+          reason.statusCode.should.eql 404
+        ).finally -> done()
+    it "by default, the promise is fulfilled whatever the statusCode", (done) ->
+      d.req(url: "/data").then (res) ->
+          # this cannot fail the test
+          res.code.should.eql 404
+          done()
 
   describe "create database", ->
     it "creates the default test database if it doesn't already exist", (done) ->

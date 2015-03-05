@@ -4,7 +4,6 @@ d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
 errors = require("request-promise/errors");
-_ = require("underscore")
 
 ok = (res, codes = [200, 201]) ->
   codes = [ codes ] if typeof codes is "number"
@@ -77,7 +76,7 @@ describe "datomiki", ->
       res = d.req url: "/data", simple: true
       assert.isRejected res
       res.should.be.rejectedWith errors.StatusCodeError
-      isPartiallyTransformed res # NOTE: it seems weird...
+      isPartiallyTransformed res # NOTE: it seems weird - compare to the 1st it
 
   describe "callback statusCode errors work the same, simple is ignored", ->
     it "given a callback: error not thrown, transform not called", (done) ->

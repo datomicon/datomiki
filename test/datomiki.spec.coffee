@@ -1,11 +1,16 @@
 #!/usr/bin/env mocha
 
 d = require("../datomiki.js")
+
+chai = require("chai")
+chai.should()
+chai.use(require("chai-as-promised"))
+assert = require("chai").assert
+isPromise = require("is-promise")
+
 toJs = require("mori").toJs
 request = require("request")
 errors = require("request-promise/errors");
-assert = require("assert")
-isPromise = require("is-promise")
 
 ok = (res) ->
   code = if res.code? then "code" else "statusCode"
@@ -62,6 +67,10 @@ describe "datomiki", ->
           # this cannot fail the test
           res.code.should.eql 404
           done()
+    it "if a promise is 'simple', an uncaught 404 should be rejected", ->
+      res = d.req url: "/data", simple: true
+      assert.isRejected res
+      res.should.be.rejectedWith errors.StatusCodeError
 
   describe "create database", ->
     it "creates the default test database if it doesn't already exist", (done) ->

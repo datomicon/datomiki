@@ -5,14 +5,20 @@ toJs = require("mori").toJs
 request = require("request")
 errors = require("request-promise/errors");
 
-ok = (res) ->
+ok = (res, codes = [200, 201]) ->
+  codes = [ codes ] if typeof codes is "number"
   code = if res.code? then "code" else "statusCode"
-  unless res[code] == 200 || res[code] == 201
-    # ki.jsonize already logs what strings it cannot parse
-    console.log res.body unless typeof res.body is "string"
-    assert false, "code #{res[code]}"
+  for c in codes
+    return if res[code] is c
+  console.log res.body # possibly helpful info
+  assert false, "code #{res[code]}"
 
 to = (v, fn) -> if typeof v is "object" then fn()
+
+# rawHeaders is not something we'd ever keep after a transformed response
+isTransformed = (res) -> expect(res.rawHeaders).to.be.an "undefined"
+isNotTransformed = (res) -> expect(res.rawHeaders).to.be.an "array"
+
 
 describe "datomiki", ->
   base = toJs(d.opts())
@@ -26,7 +32,7 @@ describe "datomiki", ->
     it "can be made using opts, tests that the server is running", (done) ->
       request toJs(d.opts(accept: "text/html")), (err, res) ->
         console.log err if err
-        res.statusCode.should.eql 200
+        ok res
         done()
 
   describe "req", ->
@@ -53,17 +59,24 @@ describe "datomiki", ->
           # this doesn't get called, can't even console.log
         ).catch(errors.StatusCodeError, (reason) ->
           # this cannot fail the test
-          reason.statusCode.should.eql 404
+          ok reason, 404
         ).finally -> done()
     it "by default, the promise is fulfilled whatever the statusCode", (done) ->
       d.req(url: "/data").then (res) ->
           # this cannot fail the test
-          res.code.should.eql 404
+          ok res, 404
           done()
     it "if a promise is 'simple', an uncaught 404 should be rejected", ->
       res = d.req url: "/data", simple: true
       assert.isRejected res
       res.should.be.rejectedWith errors.StatusCodeError
+
+  describe "callback statusCode errors work the same, almost ...", ->
+    it "given a callback: error not thrown, transform not called", (done) ->
+      d.req url: "/data", (err, res) ->
+        ok res, 404
+        isNotTransformed res
+        done()
 
   describe "create database", ->
     it "creates the default test database if it doesn't already exist", (done) ->

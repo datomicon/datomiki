@@ -1,6 +1,8 @@
 //# sourceMappingURL=datomiki.js.map
 require("source-map-support").install()
 
+/* jshint ignore:start */
+
 ki macro (export $name)
          (js exports.$name = $name)
 
@@ -134,3 +136,5 @@ ki (ns datomiki
   (export aliases)
   (export cdb)
   (export q))
+
+/* jshint ignore:end */

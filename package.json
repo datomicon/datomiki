@@ -36,6 +36,7 @@
     "mori": "~0.3.2",
     "request": "^2.53.0"
   },
+  "jshintConfig": { "asi": true },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",
     "make": "./node_modules/.bin/ki -s -u -c -o datomiki.js datomiki.ki.js",

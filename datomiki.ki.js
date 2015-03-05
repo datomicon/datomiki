@@ -13,20 +13,21 @@ ki (ns datomiki
   (def edn (require "jsedn"))
 
   (defn transform [body response]
-    (do
-      (js if (response.request._rp_options.format === "json" &&
-              response.headers["content-type"] === response.request._rp_options.expect) {
-            // it should mutate the body - making it json
-            try { response.body = edn.toJS(edn.parse(body)); }
-            catch (e) {
-              console.error("Exception: string isn't edn - " + e);
-              console.error(body);
-            }
-          })
-      (if (js response.request._rp_options.resmod)
-          (js {"code": response.statusCode,
-               "body": response.body})
-          response)))
+    (let [o (js response.request._rp_options)]
+      (do
+        (js if (o.format === "json" &&
+                response.headers["content-type"] === o.expect) {
+              // it should mutate the body - making it json
+              try { response.body = edn.toJS(edn.parse(body)); }
+              catch (e) {
+                console.error("Exception: string isn't edn - " + e);
+                console.error(body);
+              }
+            })
+        (if (js o.resmod)
+            (js {"code": response.statusCode,
+                 "body": response.body})
+            response))))
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it

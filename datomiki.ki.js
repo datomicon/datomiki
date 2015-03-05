@@ -74,7 +74,10 @@ ki (ns datomiki
     (let [o (toJs (opts o))]
       (if (falsey cb)
         (request o)
-        (request o (fn [err res] (cb err res))))))
+        (request o (fn [err res]
+          (if (js res.statusCode == 200 || res.statusCode == 201)
+            (cb err (transform (js res.body) res))
+            (cb err res)))))))
 
   (defn aliases
     // list aliases

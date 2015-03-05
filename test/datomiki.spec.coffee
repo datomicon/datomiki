@@ -4,6 +4,7 @@ d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
 errors = require("request-promise/errors");
+_ = require("underscore")
 
 ok = (res, codes = [200, 201]) ->
   codes = [ codes ] if typeof codes is "number"
@@ -15,9 +16,13 @@ ok = (res, codes = [200, 201]) ->
 
 to = (v, fn) -> if typeof v is "object" then fn()
 
-# rawHeaders is not something we'd ever keep after a transformed response
-isTransformed = (res) -> expect(res.rawHeaders).to.be.an "undefined"
+# rawHeaders - not something we'd ever expect to find in a transformed response
 isNotTransformed = (res) -> expect(res.rawHeaders).to.be.an "array"
+isTransformed = (res) -> expect(res.rawHeaders).to.be.an "undefined"
+isPartiallyTransformed = (res) ->
+  # it happens when a promise is rejected
+  isTransformed res
+  expect(res.followRedirects).to.be.a "boolean" # same, there's "redirects" ...
 
 
 describe "datomiki", ->
@@ -57,21 +62,24 @@ describe "datomiki", ->
     it "/data gets a 404, because a trailing / is expected", (done) ->
       d.req(url: "/data", simple: true).then((res) ->
           # this doesn't get called, can't even console.log
+          assert(false, "the promise can't be resolved!")
         ).catch(errors.StatusCodeError, (reason) ->
-          # this cannot fail the test
+          # this cannot fail the test, not getting full response
           ok reason, 404
         ).finally -> done()
     it "by default, the promise is fulfilled whatever the statusCode", (done) ->
       d.req(url: "/data").then (res) ->
-          # this cannot fail the test
+          # this cannot fail the test, the response doesn't have much info
           ok res, 404
+          isTransformed res
           done()
     it "if a promise is 'simple', an uncaught 404 should be rejected", ->
       res = d.req url: "/data", simple: true
       assert.isRejected res
       res.should.be.rejectedWith errors.StatusCodeError
+      isPartiallyTransformed res # NOTE: it seems weird...
 
-  describe "callback statusCode errors work the same, almost ...", ->
+  describe "callback statusCode errors work the same, simple is ignored", ->
     it "given a callback: error not thrown, transform not called", (done) ->
       d.req url: "/data", (err, res) ->
         ok res, 404

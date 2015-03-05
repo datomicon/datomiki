@@ -1,4 +1,5 @@
 --compilers coffee:coffee-script/register
+--require test/common
 --timeout 9000
 --reporter tap
 --ui bdd

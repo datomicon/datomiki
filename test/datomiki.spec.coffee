@@ -1,13 +1,6 @@
 #!/usr/bin/env mocha
 
 d = require("../datomiki.js")
-
-chai = require("chai")
-chai.should()
-chai.use(require("chai-as-promised"))
-assert = require("chai").assert
-isPromise = require("is-promise")
-
 toJs = require("mori").toJs
 request = require("request")
 errors = require("request-promise/errors");

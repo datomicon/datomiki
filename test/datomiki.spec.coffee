@@ -7,22 +7,20 @@ errors = require("request-promise/errors");
 
 ok = (res, codes = [200, 201]) ->
   codes = [ codes ] if typeof codes is "number"
-  code = if res.code? then "code" else "statusCode"
   for c in codes
-    return if res[code] is c
+    return if res.statusCode is c
   console.log res.body # possibly helpful info
   assert false, "code #{res[code]}"
 
 to = (v, fn) -> if typeof v is "object" then fn()
 
-# rawHeaders - not something we'd ever expect to find in a transformed response
-isNotTransformed = (res) -> expect(res.rawHeaders).to.be.an "array"
-isTransformed = (res) -> expect(res.rawHeaders).to.be.an "undefined"
+# caseless - not something we'd ever expect to find in a partial response
+isNotTransformed = (res) -> expect(res.caseless).to.be.an "object"
+isTransformed = (res) -> expect(res.caseless).to.be.an "undefined"
 isPartiallyTransformed = (res) ->
   # it happens when a promise is rejected
   isTransformed res
-  expect(res.followRedirects).to.be.a "boolean" # same, there's "redirects" ...
-
+  expect(res.followRedirects).to.be.a "boolean"
 
 describe "datomiki", ->
   base = toJs(d.opts())

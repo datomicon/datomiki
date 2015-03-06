@@ -13,6 +13,17 @@ ki (ns datomiki
   (def request (require "request-promise"))
   (def d (.use (require "dbin"))) // just for defaults
   (def edn (require "jsedn"))
+  (def isArray (js require("lodash").isArray))
+  (def isString (js require("lodash").isString))
+
+  (defn pick [from keys]
+    (let [res {$}]
+      (loop [key (.pop keys)]
+        (if (js key == undefined)
+          res
+          (do
+            (js res[key] = from[key])
+            (recur (.pop keys)))))))
 
   (defn transform [body response]
     (let [o (js response.request._rp_options)]
@@ -26,10 +37,11 @@ ki (ns datomiki
                 console.error(body);
               }
             })
-        (if (js o.resmod)
-            (js {"code": response.statusCode,
-                 "body": response.body})
-            response))))
+        (let [partial (js o.partial)]
+          (cond
+            (isArray partial) (pick response partial)
+            (isString partial) (js response[partial])
+            :else response)))))
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
@@ -45,7 +57,7 @@ ki (ns datomiki
              "format" "json" // if response body content-type is as "expect"-ed
              "transform" transform // a request-promise option
              "pre" false // true if preopt was called, usually true
-             "resmod" true // false to resolveWithFullResponse
+             "partial" ["statusCode" "body"] // false to resolveWithFullResponse; or "body"
              "simple" false // a request-promise option - no statusCode will throw an error
             })
 

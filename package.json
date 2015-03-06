@@ -24,6 +24,7 @@
     "dbin": "0.0.8",
     "jsedn": "^0.3.5",
     "ki": "~0.2.0",
+    "lodash": "^3.3.1",
     "request-promise": "^0.4.0",
     "source-map-support": "^0.2.9"
   },
@@ -36,7 +37,9 @@
     "mori": "~0.3.2",
     "request": "^2.53.0"
   },
-  "jshintConfig": { "asi": true },
+  "jshintConfig": {
+    "asi": true
+  },
   "scripts": {
     "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",
     "make": "./node_modules/.bin/ki -s -u -c -o datomiki.js datomiki.ki.js",

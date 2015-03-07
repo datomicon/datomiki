@@ -32,6 +32,8 @@
     "chai": "^2.1.1",
     "chai-as-promised": "^4.2.0",
     "coffee-script": "^1.9.1",
+    "gulp": "^3.8.11",
+    "gulp-shell": "^0.3.0",
     "is-promise": "^2.0.0",
     "mocha": "^2.1.0",
     "mori": "~0.3.2",
@@ -41,8 +43,8 @@
     "asi": true
   },
   "scripts": {
-    "work": "./node_modules/.bin/ki -s -w -o datomiki.js datomiki.ki.js",
-    "make": "./node_modules/.bin/ki -s -u -c -o datomiki.js datomiki.ki.js",
+    "build": "./node_modules/.bin/ki -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
+    "build:min": "./node_modules/.bin/ki -s -u -c -i macros.ki.js -o datomiki.js datomiki.ki.js",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
   },

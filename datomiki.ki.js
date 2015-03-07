@@ -1,6 +1,8 @@
 //# sourceMappingURL=datomiki.js.map
 require("source-map-support").install()
 
+/* jshint ignore:start */
+
 ki macro (export $name)
          (js exports.$name = $name)
 
@@ -11,6 +13,37 @@ ki (ns datomiki
   (def request (require "request-promise"))
   (def d (.use (require "dbin"))) // just for defaults
   (def edn (require "jsedn"))
+  (def isArray (js require("lodash").isArray))
+  (def isObject (js require("lodash").isObject))
+  (def isString (js require("lodash").isString))
+  (def isFunction (js require("lodash").isFunction))
+
+  (defn pick [from keys]
+    (let [res {$}]
+      (loop [key (.pop keys)]
+        (if (js key == undefined)
+          res
+          (do
+            (js res[key] = from[key])
+            (recur (.pop keys)))))))
+
+  (defn transform [body response]
+    (let [o (js response.request._rp_options)]
+      (do
+        (js if (o.format === "json" &&
+                response.headers["content-type"] === o.expect) {
+              // it should mutate the body - making it json
+              try { response.body = edn.toJS(edn.parse(body)); }
+              catch (e) {
+                console.error("Exception: string isn't edn - " + e);
+                console.error(body);
+              }
+            })
+        (let [partial (js o.partial)]
+          (cond
+            (isArray partial) (pick response partial)
+            (isString partial) (js response[partial])
+            :else response)))))
 
   (def // default options
        base {"uri" (js d.cfg.rest.uri) // the url will be appended to it
@@ -22,10 +55,12 @@ ki (ns datomiki
              "data" {}
              "content-type" "application/edn" // could be application/x-www-form-urlencoded
              "accept" "application/edn"
-             "format" "json" // anything but json is left as is - a string
+             "expect" "application/edn;charset=UTF-8"
+             "format" "json" // if response body content-type is as "expect"-ed
+             "transform" transform // a request-promise option
              "pre" false // true if preopt was called, usually true
-             "resolveWithFullResponse" true // false = just the body String
-             "resmod" true // false = the full response (if resolveWithFullResponse)
+             "partial" ["statusCode" "body"] // false to resolveWithFullResponse; or "body"
+             "simple" false // a request-promise option - no statusCode will throw an error
             })
 
   (defn edenize [data]
@@ -33,13 +68,6 @@ ki (ns datomiki
     // it appears toClj can run ok 2 times in a row on the same data
     // still good to have names that are easier for congnitive parsing
     (toClj data))
-
-  (defn jsonize [data]
-    (try (js return edn.toJS(edn.parse(data)))
-      (catch e (js
-        console.error("Exception: string isn't edn - " + e);
-        console.error(data);
-        return data;))))
 
   (defn preopts [opts]
     // the opts are often needed early
@@ -55,32 +83,24 @@ ki (ns datomiki
           "headers" { "Accept" (get o "accept")
                       "Content-Type" (get o "content-type") } ))))
 
-  (defn re
-    // the response (with mods)
-    ([r]
-      (if (js typeof r.request == "object")
-        (re r (js r.request._rp_options))
-        (jsonize r))) // assume application/edn content-type
-    ([r o]
-      (if (js o.resmod)
-        (if (equals "json" (js o.format))
-          (js {"code": r.statusCode,
-               "body": (o.accept == "application/edn") ?
-                        jsonize(r.body) : r.body})
-          {:code (js r.statusCode)
-           :body (js r.body)})
-        r)))
-
   (defn req [o cb]
     // make a request
     (let [o (toJs (opts o))]
       (if (falsey cb)
         (request o)
-        (request o (fn [err res] (cb err (re res o)))))))
+        (request o (fn [err res]
+          (if (js res.statusCode == 200 || res.statusCode == 201)
+            (cb err (transform (js res.body) res))
+            (cb err res)))))))
 
   (defn aliases
     // list aliases
-    ([cb] (aliases {} cb))
+    ([] (aliases {} false))
+    ([a]
+      (cond
+        (isFunction a) (aliases {} a) // functions are also objects, must be 1st
+        (isObject a) (aliases a false)
+        :else (throw "aliases called with an argument of unexpected type")))
     ([o cb] (req (merge (edenize o) {"url" "/data/"}) cb)))
 
   (defn cdb
@@ -135,7 +155,8 @@ ki (ns datomiki
 
   (export opts)
   (export req)
-  (export re)
   (export aliases)
   (export cdb)
   (export q))
+
+/* jshint ignore:end */

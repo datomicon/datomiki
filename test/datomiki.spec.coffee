@@ -1,19 +1,8 @@
 #!/usr/bin/env mocha
 
-d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
-assert = require("assert")
-isPromise = require("is-promise")
 
-ok = (res) ->
-  code = if res.code? then "code" else "statusCode"
-  unless res[code] == 200 || res[code] == 201
-    # ki.jsonize already logs what strings it cannot parse
-    console.log res.body unless typeof res.body is "string"
-    assert false, "code #{res[code]}"
-
-to = (v, fn) -> if typeof v is "object" then fn()
 
 describe "datomiki", ->
   base = toJs(d.opts())
@@ -27,7 +16,7 @@ describe "datomiki", ->
     it "can be made using opts, tests that the server is running", (done) ->
       request toJs(d.opts(accept: "text/html")), (err, res) ->
         console.log err if err
-        res.statusCode.should.eql 200
+        ok res
         done()
 
   describe "req", ->
@@ -43,9 +32,41 @@ describe "datomiki", ->
         done()
     it "is also a promise", (done) ->
       res = d.aliases()
-      isPromise res
+      isPromise(res)
       res.then (res) ->
-        ok d.re(res)
+        ok res
+        done()
+    it "can return just the body, though the promise should be made simple", ->
+      res = d.aliases({partial: "body", simple: true})
+      res.should.be.fulfilled
+      res.should.eventually.be.an "array"
+
+  describe "a promised error for /data", ->
+    it "/data gets a 404, because a trailing / is expected", (done) ->
+      d.req(url: "/data", simple: true).then((res) ->
+          # this doesn't get called, can't even console.log
+          assert(false, "the promise can't be resolved!")
+        ).catch(errors.StatusCodeError, (reason) ->
+          # this cannot fail the test, not getting full response
+          ok reason, 404
+        ).finally -> done()
+    it "by default, the promise is fulfilled whatever the statusCode", (done) ->
+      d.req(url: "/data").then (res) ->
+          # this cannot fail the test, the response doesn't have much info
+          ok res, 404
+          isTransformed res
+          done()
+    it "if a promise is 'simple', an uncaught 404 should be rejected", ->
+      res = d.req url: "/data", simple: true
+      assert.isRejected res
+      res.should.be.rejectedWith errors.StatusCodeError
+      isPartiallyTransformed res # NOTE: it seems weird - compare to the 1st it
+
+  describe "callback statusCode errors work the same, simple is ignored", ->
+    it "given a callback: error not thrown, transform not called", (done) ->
+      d.req url: "/data", (err, res) ->
+        ok res, 404
+        isNotTransformed res
         done()
 
   describe "create database", ->

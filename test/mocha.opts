@@ -1,6 +1,7 @@
 --compilers coffee:coffee-script/register
+--require test/common
+--require test/helpers
 --timeout 9000
---require should
 --reporter tap
 --ui bdd
 --colors

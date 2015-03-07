@@ -43,7 +43,7 @@
     "asi": true
   },
   "scripts": {
-    "build": "./node_modules/.bin/ki -s -w -i macros.ki.js -o datomiki.js datomiki.ki.js",
+    "build": "./node_modules/.bin/ki -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
     "build:min": "./node_modules/.bin/ki -s -u -c -i macros.ki.js -o datomiki.js datomiki.ki.js",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"

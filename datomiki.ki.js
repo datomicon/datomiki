@@ -14,7 +14,9 @@ ki (ns datomiki
   (def d (.use (require "dbin"))) // just for defaults
   (def edn (require "jsedn"))
   (def isArray (js require("lodash").isArray))
+  (def isObject (js require("lodash").isObject))
   (def isString (js require("lodash").isString))
+  (def isFunction (js require("lodash").isFunction))
 
   (defn pick [from keys]
     (let [res {$}]
@@ -93,7 +95,12 @@ ki (ns datomiki
 
   (defn aliases
     // list aliases
-    ([cb] (aliases {} cb))
+    ([] (aliases {} false))
+    ([a]
+      (cond
+        (isFunction a) (aliases {} a) // functions are also objects, must be 1st
+        (isObject a) (aliases a false)
+        :else (throw "aliases called with an argument of unexpected type")))
     ([o cb] (req (merge (edenize o) {"url" "/data/"}) cb)))
 
   (defn cdb

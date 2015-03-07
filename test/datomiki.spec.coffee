@@ -1,26 +1,8 @@
 #!/usr/bin/env mocha
 
-d = require("../datomiki.js")
 toJs = require("mori").toJs
 request = require("request")
-errors = require("request-promise/errors");
 
-ok = (res, codes = [200, 201]) ->
-  codes = [ codes ] if typeof codes is "number"
-  for c in codes
-    return if res.statusCode is c
-  console.log res.body # possibly helpful info
-  assert false, "code #{res[code]}"
-
-to = (v, fn) -> if typeof v is "object" then fn()
-
-# caseless - not something we'd ever expect to find in a partial response
-isNotTransformed = (res) -> expect(res.caseless).to.be.an "object"
-isTransformed = (res) -> expect(res.caseless).to.be.an "undefined"
-isPartiallyTransformed = (res) ->
-  # it happens when a promise is rejected
-  isTransformed res
-  expect(res.followRedirects).to.be.a "boolean"
 
 describe "datomiki", ->
   base = toJs(d.opts())
@@ -54,6 +36,10 @@ describe "datomiki", ->
       res.then (res) ->
         ok res
         done()
+    it "can return just the body, though the promise should be made simple", ->
+      res = d.aliases({partial: "body", simple: true})
+      res.should.be.fulfilled
+      res.should.eventually.be.an "array"
 
   describe "a promised error for /data", ->
     it "/data gets a 404, because a trailing / is expected", (done) ->

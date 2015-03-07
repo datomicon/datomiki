@@ -1,33 +1,33 @@
 //# sourceMappingURL=datomiki.js.map
 require('source-map-support').install();
 _ki = {
-    init: function (self$64542, ns_name$64543) {
-        if (_ki.namespaces[ns_name$64543] === undefined) {
-            _ki.namespaces[ns_name$64543] = { vars: {} };
+    init: function (self$142091, ns_name$142092) {
+        if (_ki.namespaces[ns_name$142092] === undefined) {
+            _ki.namespaces[ns_name$142092] = { vars: {} };
         }
-        self$64542._ki_ns_name = ns_name$64543;
-        self$64542._ki_ns_ctx = self$64542;
-        _ki.intern.bind(self$64542)(_ki.modules.core);
-        _ki.intern.bind(self$64542)(_ki.modules.mori);
-        _ki.intern.bind(self$64542)(_ki.modules);
-        _ki.intern.bind(self$64542)(_ki.namespaces[_ki_ns_name].vars);
+        self$142091._ki_ns_name = ns_name$142092;
+        self$142091._ki_ns_ctx = self$142091;
+        _ki.intern.bind(self$142091)(_ki.modules.core);
+        _ki.intern.bind(self$142091)(_ki.modules.mori);
+        _ki.intern.bind(self$142091)(_ki.modules);
+        _ki.intern.bind(self$142091)(_ki.namespaces[_ki_ns_name].vars);
     },
-    intern: function (obj$64544) {
-        for (var e$64545 in obj$64544) {
-            this[e$64545] = obj$64544[e$64545];
+    intern: function (obj$142093) {
+        for (var e$142094 in obj$142093) {
+            this[e$142094] = obj$142093[e$142094];
         }
     },
     namespaces: {},
     modules: {
         core: {
-            truthy: function (x$64546) {
-                return x$64546 === false || x$64546 == null ? false : true;
+            truthy: function (x$142095) {
+                return x$142095 === false || x$142095 == null ? false : true;
             },
-            falsey: function (x$64547) {
-                return !truthy(x$64547);
+            falsey: function (x$142096) {
+                return !truthy(x$142096);
             },
-            not: function (x$64548) {
-                return !truthy(x$64548);
+            not: function (x$142097) {
+                return !truthy(x$142097);
             },
             eq: function () {
                 return equals.apply(null, arguments);
@@ -36,69 +36,69 @@ _ki = {
                 return !equals.apply(null, arguments);
             },
             add: function () {
-                var res$64549 = 0;
-                for (var i$64550 = 0; i$64550 < arguments.length; i$64550++) {
-                    res$64549 += arguments[i$64550];
+                var res$142098 = 0;
+                for (var i$142099 = 0; i$142099 < arguments.length; i$142099++) {
+                    res$142098 += arguments[i$142099];
                 }
-                return res$64549;
+                return res$142098;
             },
             sub: function () {
-                var res$64551 = arguments[0];
-                for (var i$64552 = 1; i$64552 < arguments.length; i$64552++) {
-                    res$64551 -= arguments[i$64552];
+                var res$142100 = arguments[0];
+                for (var i$142101 = 1; i$142101 < arguments.length; i$142101++) {
+                    res$142100 -= arguments[i$142101];
                 }
-                return res$64551;
+                return res$142100;
             },
             mul: function () {
-                var res$64553 = 1;
-                for (var i$64554 = 0; i$64554 < arguments.length; i$64554++) {
-                    res$64553 *= arguments[i$64554];
+                var res$142102 = 1;
+                for (var i$142103 = 0; i$142103 < arguments.length; i$142103++) {
+                    res$142102 *= arguments[i$142103];
                 }
-                return res$64553;
+                return res$142102;
             },
             div: function () {
-                var res$64555 = arguments[0];
-                for (var i$64556 = 1; i$64556 < arguments.length; i$64556++) {
-                    res$64555 /= arguments[i$64556];
+                var res$142104 = arguments[0];
+                for (var i$142105 = 1; i$142105 < arguments.length; i$142105++) {
+                    res$142104 /= arguments[i$142105];
                 }
-                return res$64555;
+                return res$142104;
             },
-            mod: function (a$64557, b$64558) {
-                return a$64557 % b$64558;
+            mod: function (a$142106, b$142107) {
+                return a$142106 % b$142107;
             },
             lt: function () {
-                var res$64559 = true;
-                for (var i$64560 = 0; i$64560 < arguments.length - 1; i$64560++) {
-                    res$64559 = res$64559 && arguments[i$64560] < arguments[i$64560 + 1];
-                    if (!res$64559)
+                var res$142108 = true;
+                for (var i$142109 = 0; i$142109 < arguments.length - 1; i$142109++) {
+                    res$142108 = res$142108 && arguments[i$142109] < arguments[i$142109 + 1];
+                    if (!res$142108)
                         break;
                 }
-                return res$64559;
+                return res$142108;
             },
             gt: function () {
-                var res$64561 = true;
-                for (var i$64562 = 0; i$64562 < arguments.length - 1; i$64562++) {
-                    res$64561 = res$64561 && arguments[i$64562] > arguments[i$64562 + 1];
-                    if (!res$64561)
+                var res$142110 = true;
+                for (var i$142111 = 0; i$142111 < arguments.length - 1; i$142111++) {
+                    res$142110 = res$142110 && arguments[i$142111] > arguments[i$142111 + 1];
+                    if (!res$142110)
                         break;
                 }
-                return res$64561;
+                return res$142110;
             },
             leq: function () {
-                var res$64563 = true;
-                for (var i$64564 = 0; i$64564 < arguments.length - 1; i$64564++) {
-                    res$64563 = res$64563 && arguments[i$64564] <= arguments[i$64564 + 1];
-                    if (!res$64563)
+                var res$142112 = true;
+                for (var i$142113 = 0; i$142113 < arguments.length - 1; i$142113++) {
+                    res$142112 = res$142112 && arguments[i$142113] <= arguments[i$142113 + 1];
+                    if (!res$142112)
                         break;
                 }
-                return res$64563;
+                return res$142112;
             },
             geq: function () {
-                var res$64565 = true;
-                for (var i$64566 = 0; i$64566 < arguments.length - 1; i$64566++) {
-                    res$64565 = res$64565 && arguments[i$64566] >= arguments[i$64566 + 1];
+                var res$142114 = true;
+                for (var i$142115 = 0; i$142115 < arguments.length - 1; i$142115++) {
+                    res$142114 = res$142114 && arguments[i$142115] >= arguments[i$142115 + 1];
                 }
-                return res$64565;
+                return res$142114;
             },
             prn: function () {
                 console.log.apply(console, arguments);
@@ -110,10 +110,10 @@ _ki = {
         mori: function () {
             try {
                 return require('ki/node_modules/mori');
-            } catch (e$64567) {
+            } catch (e$142116) {
                 try {
                     return require('mori');
-                } catch (e$64568) {
+                } catch (e$142117) {
                     return mori;
                 }
             }
@@ -145,38 +145,48 @@ _ki = {
             return _ki_ns_ctx['isArray'];
         }());
         (function () {
+            _ki_ns_ctx['isObject'] = require('lodash').isObject;
+            _ki.namespaces[_ki_ns_name].vars.isObject = _ki_ns_ctx['isObject'];
+            return _ki_ns_ctx['isObject'];
+        }());
+        (function () {
             _ki_ns_ctx['isString'] = require('lodash').isString;
             _ki.namespaces[_ki_ns_name].vars.isString = _ki_ns_ctx['isString'];
             return _ki_ns_ctx['isString'];
         }());
         (function () {
-            _ki_ns_ctx['pick'] = function (from$64690, keys$64691) {
+            _ki_ns_ctx['isFunction'] = require('lodash').isFunction;
+            _ki.namespaces[_ki_ns_name].vars.isFunction = _ki_ns_ctx['isFunction'];
+            return _ki_ns_ctx['isFunction'];
+        }());
+        (function () {
+            _ki_ns_ctx['pick'] = function (from$142247, keys$142248) {
                 return function () {
-                    return function (v$64696) {
-                        var res$64698 = v$64696;
+                    return function (v$142253) {
+                        var res$142255 = v$142253;
                         return function () {
-                            var res$64702 = {};
+                            var res$142259 = {};
                             do {
-                                res$64702 = function () {
-                                    return function (v$64728) {
-                                        var key$64730 = v$64728;
+                                res$142259 = function () {
+                                    return function (v$142285) {
+                                        var key$142287 = v$142285;
                                         return function () {
-                                            if (truthy(key$64730 == undefined)) {
-                                                return res$64698;
+                                            if (truthy(key$142287 == undefined)) {
+                                                return res$142255;
                                             }
                                             return function () {
-                                                res$64698[key$64730] = from$64690[key$64730];
+                                                res$142255[key$142287] = from$142247[key$142287];
                                                 return {
                                                     _ki_recur: true,
-                                                    _ki_vals: [keys$64691.pop()]
+                                                    _ki_vals: [keys$142248.pop()]
                                                 };
                                             }.call(this);
                                         }.call(this);
-                                    }(res$64702._ki_vals === undefined ? keys$64691.pop() : res$64702._ki_vals[0]);
+                                    }(res$142259._ki_vals === undefined ? keys$142248.pop() : res$142259._ki_vals[0]);
                                     ;
                                 }();
-                            } while ((res$64702 || 0)._ki_recur);
-                            return res$64702;
+                            } while ((res$142259 || 0)._ki_recur);
+                            return res$142259;
                         }.call(this);
                     }.call(this, {});
                 }.call(this);
@@ -185,44 +195,44 @@ _ki = {
             return _ki_ns_ctx['pick'];
         }());
         (function () {
-            _ki_ns_ctx['transform'] = function (body$64769, response$64770) {
+            _ki_ns_ctx['transform'] = function (body$142326, response$142327) {
                 return function () {
-                    return function (v$64775) {
-                        var o$64777 = v$64775;
+                    return function (v$142332) {
+                        var o$142334 = v$142332;
                         return function () {
-                            if (o$64777.format === 'json' && response$64770.headers['content-type'] === o$64777.expect) {
+                            if (o$142334.format === 'json' && response$142327.headers['content-type'] === o$142334.expect) {
                                 try {
                                     // it should mutate the body - making it json
-                                    response$64770.body = edn.toJS(edn.parse(body$64769));
-                                } catch (e$64785) {
-                                    console.error('Exception: string isn\'t edn - ' + e$64785);
-                                    console.error(body$64769);
+                                    response$142327.body = edn.toJS(edn.parse(body$142326));
+                                } catch (e$142342) {
+                                    console.error('Exception: string isn\'t edn - ' + e$142342);
+                                    console.error(body$142326);
                                 }
                             }
                             ;
                             return function () {
-                                return function (v$64788) {
-                                    var partial$64790 = v$64788;
+                                return function (v$142345) {
+                                    var partial$142347 = v$142345;
                                     return function () {
-                                        if (truthy(isArray(partial$64790))) {
-                                            return pick(response$64770, partial$64790);
+                                        if (truthy(isArray(partial$142347))) {
+                                            return pick(response$142327, partial$142347);
                                         }
                                         return function () {
-                                            if (truthy(isString(partial$64790))) {
-                                                return response$64770[partial$64790];
+                                            if (truthy(isString(partial$142347))) {
+                                                return response$142327[partial$142347];
                                             }
                                             return function () {
                                                 if (truthy(keyword('else'))) {
-                                                    return response$64770;
+                                                    return response$142327;
                                                 }
                                                 return undefined;
                                             }.call(this);
                                         }.call(this);
                                     }.call(this);
-                                }.call(this, o$64777.partial);
+                                }.call(this, o$142334.partial);
                             }.call(this);
                         }.call(this);
-                    }.call(this, response$64770.request._rp_options);
+                    }.call(this, response$142327.request._rp_options);
                 }.call(this);
             };
             _ki.namespaces[_ki_ns_name].vars.transform = _ki_ns_ctx['transform'];
@@ -244,71 +254,71 @@ _ki = {
             return _ki_ns_ctx['base'];
         }());
         (function () {
-            _ki_ns_ctx['edenize'] = function (data$65070) {
-                return toClj(data$65070);
+            _ki_ns_ctx['edenize'] = function (data$142627) {
+                return toClj(data$142627);
             };
             _ki.namespaces[_ki_ns_name].vars.edenize = _ki_ns_ctx['edenize'];
             return _ki_ns_ctx['edenize'];
         }());
         (function () {
-            _ki_ns_ctx['preopts'] = function (opts$65079) {
-                return merge(base, edenize(opts$65079), hashMap('pre', true));
+            _ki_ns_ctx['preopts'] = function (opts$142636) {
+                return merge(base, edenize(opts$142636), hashMap('pre', true));
             };
             _ki.namespaces[_ki_ns_name].vars.preopts = _ki_ns_ctx['preopts'];
             return _ki_ns_ctx['preopts'];
         }());
         (function () {
             _ki_ns_ctx['opts'] = function () {
-                var fnmap$65106 = {
+                var fnmap$142663 = {
                     0: function () {
                         return base;
                     },
-                    1: function (opts$65118) {
+                    1: function (opts$142675) {
                         return function () {
-                            return function (v$65123) {
-                                var o$65125 = v$65123;
-                                return assoc(o$65125, 'uri', str(get(o$65125, 'uri'), get(o$65125, 'url')), 'headers', hashMap('Accept', get(o$65125, 'accept'), 'Content-Type', get(o$65125, 'content-type')));
+                            return function (v$142680) {
+                                var o$142682 = v$142680;
+                                return assoc(o$142682, 'uri', str(get(o$142682, 'uri'), get(o$142682, 'url')), 'headers', hashMap('Accept', get(o$142682, 'accept'), 'Content-Type', get(o$142682, 'content-type')));
                             }.call(this, function () {
-                                if (truthy(get(opts$65118, 'pre'))) {
-                                    return opts$65118;
+                                if (truthy(get(opts$142675, 'pre'))) {
+                                    return opts$142675;
                                 }
-                                return merge(base, edenize(opts$65118));
+                                return merge(base, edenize(opts$142675));
                             }.call(this));
                         }.call(this);
                     }
                 };
-                var max_arity$65107 = 0;
-                for (var a$65108 in fnmap$65106) {
-                    max_arity$65107 = a$65108 > max_arity$65107 ? a$65108 : max_arity$65107;
+                var max_arity$142664 = 0;
+                for (var a$142665 in fnmap$142663) {
+                    max_arity$142664 = a$142665 > max_arity$142664 ? a$142665 : max_arity$142664;
                 }
-                fnmap$65106[null] = fnmap$65106[max_arity$65107];
+                fnmap$142663[null] = fnmap$142663[max_arity$142664];
                 return function () {
-                    var f$65223 = fnmap$65106[arguments.length] || fnmap$65106[null];
-                    return f$65223.apply(this, arguments);
+                    var f$142780 = fnmap$142663[arguments.length] || fnmap$142663[null];
+                    return f$142780.apply(this, arguments);
                 };
             }.call(this);
             _ki.namespaces[_ki_ns_name].vars.opts = _ki_ns_ctx['opts'];
             return _ki_ns_ctx['opts'];
         }());
         (function () {
-            _ki_ns_ctx['req'] = function (o$65225, cb$65226) {
+            _ki_ns_ctx['req'] = function (o$142782, cb$142783) {
                 return function () {
-                    return function (v$65240) {
-                        var o$65242 = v$65240;
+                    return function (v$142797) {
+                        var o$142799 = v$142797;
                         return function () {
-                            if (truthy(falsey(cb$65226))) {
-                                return request(o$65242);
+                            if (truthy(falsey(cb$142783))) {
+                                return request(o$142799);
                             }
-                            return request(o$65242, function (err$65270, res$65271) {
+                            return request(o$142799, function (err$142827, res$142828) {
                                 return function () {
-                                    if (truthy(res$65271.statusCode == 200 || res$65271.statusCode == 201)) {
-                                        return cb$65226(err$65270, transform(res$65271.body, res$65271));
+                                    if (truthy(res$142828.statusCode == 200 || res$142828.statusCode == 201)) {
+                                        return cb$142783(err$142827, transform(res$142828.body, res$142828));
                                     }
-                                    return cb$65226(err$65270, res$65271);
+                                    return cb$142783(err$142827, res$142828);
                                 }.call(this);
                             });
                         }.call(this);
-                    }.call(this, toJs(opts(o$65225)));
+                    }.call(this, toJs(opts(o$142782)));
                 }.call(this);
             };
             _ki.namespaces[_ki_ns_name].vars.req = _ki_ns_ctx['req'];
@@ -316,22 +326,42 @@ _ki = {
         }());
         (function () {
             _ki_ns_ctx['aliases'] = function () {
-                var fnmap$65304 = {
-                    1: function (cb$65313) {
-                        return aliases(hashMap(), cb$65313);
+                var fnmap$142861 = {
+                    0: function () {
+                        return aliases(hashMap(), false);
                     },
-                    2: function (o$65341, cb$65342) {
-                        return req(merge(edenize(o$65341), hashMap('url', '/data/')), cb$65342);
+                    1: function (a$142900) {
+                        return function () {
+                            if (truthy(isFunction(a$142900))) {
+                                return aliases(hashMap(), a$142900);
+                            }
+                            return function () {
+                                if (truthy(isObject(a$142900))) {
+                                    return aliases(a$142900, false);
+                                }
+                                return function () {
+                                    if (truthy(keyword('else'))) {
+                                        return function () {
+                                            throw 'aliases called with an argument of unexpected type';
+                                        }.call(this);
+                                    }
+                                    return undefined;
+                                }.call(this);
+                            }.call(this);
+                        }.call(this);
+                    },
+                    2: function (o$142974, cb$142975) {
+                        return req(merge(edenize(o$142974), hashMap('url', '/data/')), cb$142975);
                     }
                 };
-                var max_arity$65305 = 0;
-                for (var a$65306 in fnmap$65304) {
-                    max_arity$65305 = a$65306 > max_arity$65305 ? a$65306 : max_arity$65305;
+                var max_arity$142862 = 0;
+                for (var a$142863 in fnmap$142861) {
+                    max_arity$142862 = a$142863 > max_arity$142862 ? a$142863 : max_arity$142862;
                 }
-                fnmap$65304[null] = fnmap$65304[max_arity$65305];
+                fnmap$142861[null] = fnmap$142861[max_arity$142862];
                 return function () {
-                    var f$65372 = fnmap$65304[arguments.length] || fnmap$65304[null];
-                    return f$65372.apply(this, arguments);
+                    var f$143005 = fnmap$142861[arguments.length] || fnmap$142861[null];
+                    return f$143005.apply(this, arguments);
                 };
             }.call(this);
             _ki.namespaces[_ki_ns_name].vars.aliases = _ki_ns_ctx['aliases'];
@@ -339,65 +369,65 @@ _ki = {
         }());
         (function () {
             _ki_ns_ctx['cdb'] = function () {
-                var fnmap$65374 = {
-                    1: function (cb$65386) {
-                        return cdb(get(base, 'db'), hashMap(), cb$65386);
+                var fnmap$143007 = {
+                    1: function (cb$143019) {
+                        return cdb(get(base, 'db'), hashMap(), cb$143019);
                     },
-                    2: function (name$65444, cb$65445) {
-                        return cdb(name$65444, hashMap(), cb$65445);
+                    2: function (name$143077, cb$143078) {
+                        return cdb(name$143077, hashMap(), cb$143078);
                     },
-                    3: function (name$65482, o$65483, cb$65484) {
+                    3: function (name$143115, o$143116, cb$143117) {
                         return function () {
-                            return function (v$65494) {
-                                var o$65496 = v$65494;
-                                return req(merge(o$65496, hashMap('url', str('/data/', get(o$65496, 'alias'), '/'), 'method', 'post', 'body', str('{:db-name "', name$65482, '"}'))), cb$65484);
-                            }.call(this, preopts(o$65483));
+                            return function (v$143127) {
+                                var o$143129 = v$143127;
+                                return req(merge(o$143129, hashMap('url', str('/data/', get(o$143129, 'alias'), '/'), 'method', 'post', 'body', str('{:db-name "', name$143115, '"}'))), cb$143117);
+                            }.call(this, preopts(o$143116));
                         }.call(this);
                     }
                 };
-                var max_arity$65375 = 0;
-                for (var a$65376 in fnmap$65374) {
-                    max_arity$65375 = a$65376 > max_arity$65375 ? a$65376 : max_arity$65375;
+                var max_arity$143008 = 0;
+                for (var a$143009 in fnmap$143007) {
+                    max_arity$143008 = a$143009 > max_arity$143008 ? a$143009 : max_arity$143008;
                 }
-                fnmap$65374[null] = fnmap$65374[max_arity$65375];
+                fnmap$143007[null] = fnmap$143007[max_arity$143008];
                 return function () {
-                    var f$65562 = fnmap$65374[arguments.length] || fnmap$65374[null];
-                    return f$65562.apply(this, arguments);
+                    var f$143195 = fnmap$143007[arguments.length] || fnmap$143007[null];
+                    return f$143195.apply(this, arguments);
                 };
             }.call(this);
             _ki.namespaces[_ki_ns_name].vars.cdb = _ki_ns_ctx['cdb'];
             return _ki_ns_ctx['cdb'];
         }());
         (function () {
-            _ki_ns_ctx['dbs'] = function (opts$65564) {
+            _ki_ns_ctx['dbs'] = function (opts$143197) {
                 return 'list databases';
             };
             _ki.namespaces[_ki_ns_name].vars.dbs = _ki_ns_ctx['dbs'];
             return _ki_ns_ctx['dbs'];
         }());
         (function () {
-            _ki_ns_ctx['info'] = function (opts$65569) {
+            _ki_ns_ctx['info'] = function (opts$143202) {
                 return 'retrieve database info';
             };
             _ki.namespaces[_ki_ns_name].vars.info = _ki_ns_ctx['info'];
             return _ki_ns_ctx['info'];
         }());
         (function () {
-            _ki_ns_ctx['transact'] = function (opts$65574) {
+            _ki_ns_ctx['transact'] = function (opts$143207) {
                 return 'process transaction';
             };
             _ki.namespaces[_ki_ns_name].vars.transact = _ki_ns_ctx['transact'];
             return _ki_ns_ctx['transact'];
         }());
         (function () {
-            _ki_ns_ctx['datoms'] = function (opts$65579) {
+            _ki_ns_ctx['datoms'] = function (opts$143212) {
                 return 'retrieve datoms';
             };
             _ki.namespaces[_ki_ns_name].vars.datoms = _ki_ns_ctx['datoms'];
             return _ki_ns_ctx['datoms'];
         }());
         (function () {
-            _ki_ns_ctx['entity'] = function (opts$65584) {
+            _ki_ns_ctx['entity'] = function (opts$143217) {
                 return 'retrieve entity';
             };
             _ki.namespaces[_ki_ns_name].vars.entity = _ki_ns_ctx['entity'];
@@ -405,53 +435,53 @@ _ki = {
         }());
         (function () {
             _ki_ns_ctx['q'] = function () {
-                var fnmap$65589 = {
-                    2: function (query$65598, cb$65599) {
-                        return q(query$65598, hashMap(), cb$65599);
+                var fnmap$143222 = {
+                    2: function (query$143231, cb$143232) {
+                        return q(query$143231, hashMap(), cb$143232);
                     },
-                    3: function (query$65636, o$65637, cb$65638) {
+                    3: function (query$143269, o$143270, cb$143271) {
                         return function () {
-                            return function (v$65648) {
-                                var o$65650 = v$65648;
-                                return function (v$65661) {
-                                    var data$65663 = v$65661;
-                                    return function (v$65666) {
-                                        var limit$65668 = v$65666;
-                                        return function (v$65671) {
-                                            var offset$65673 = v$65671;
-                                            return req(merge(edenize(o$65650), hashMap('url', '/api/query', 'method', 'post', 'body', str('{:q ', query$65636, limit$65668, offset$65673, ' :args [{:db/alias "', get(o$65650, 'alias'), '/', get(o$65650, 'db'), '"}]}'))), cb$65638);
+                            return function (v$143281) {
+                                var o$143283 = v$143281;
+                                return function (v$143294) {
+                                    var data$143296 = v$143294;
+                                    return function (v$143299) {
+                                        var limit$143301 = v$143299;
+                                        return function (v$143304) {
+                                            var offset$143306 = v$143304;
+                                            return req(merge(edenize(o$143283), hashMap('url', '/api/query', 'method', 'post', 'body', str('{:q ', query$143269, limit$143301, offset$143306, ' :args [{:db/alias "', get(o$143283, 'alias'), '/', get(o$143283, 'db'), '"}]}'))), cb$143271);
                                         }.call(this, function () {
-                                            if (truthy(get(data$65663, 'offset'))) {
-                                                return str(' :offset ', get(data$65663, 'offset'));
+                                            if (truthy(get(data$143296, 'offset'))) {
+                                                return str(' :offset ', get(data$143296, 'offset'));
                                             }
                                             return '';
                                         }.call(this));
                                     }.call(this, function () {
-                                        if (truthy(get(data$65663, 'limit'))) {
-                                            return str(' :limit ', get(data$65663, 'limit'));
+                                        if (truthy(get(data$143296, 'limit'))) {
+                                            return str(' :limit ', get(data$143296, 'limit'));
                                         }
                                         return '';
                                     }.call(this));
-                                }.call(this, get(o$65650, 'data'));
-                            }.call(this, preopts(o$65637));
+                                }.call(this, get(o$143283, 'data'));
+                            }.call(this, preopts(o$143270));
                         }.call(this);
                     }
                 };
-                var max_arity$65590 = 0;
-                for (var a$65591 in fnmap$65589) {
-                    max_arity$65590 = a$65591 > max_arity$65590 ? a$65591 : max_arity$65590;
+                var max_arity$143223 = 0;
+                for (var a$143224 in fnmap$143222) {
+                    max_arity$143223 = a$143224 > max_arity$143223 ? a$143224 : max_arity$143223;
                 }
-                fnmap$65589[null] = fnmap$65589[max_arity$65590];
+                fnmap$143222[null] = fnmap$143222[max_arity$143223];
                 return function () {
-                    var f$65820 = fnmap$65589[arguments.length] || fnmap$65589[null];
-                    return f$65820.apply(this, arguments);
+                    var f$143453 = fnmap$143222[arguments.length] || fnmap$143222[null];
+                    return f$143453.apply(this, arguments);
                 };
             }.call(this);
             _ki.namespaces[_ki_ns_name].vars.q = _ki_ns_ctx['q'];
             return _ki_ns_ctx['q'];
         }());
         (function () {
-            _ki_ns_ctx['events'] = function (opts$65822) {
+            _ki_ns_ctx['events'] = function (opts$143455) {
                 return 'subscribe to events';
             };
             _ki.namespaces[_ki_ns_name].vars.events = _ki_ns_ctx['events'];

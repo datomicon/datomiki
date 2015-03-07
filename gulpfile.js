@@ -1,13 +1,14 @@
 var gulp = require('gulp')
 var shell = require('gulp-shell')
 
-gulp.task('build', shell.task('npm run build'))
-gulp.task('build:min', shell.task('npm run build:min'))
-gulp.task('start', shell.task('npm start'))
-gulp.task('test', shell.task('npm test'))
+var scripts = ['build', 'build:min', 'start', 'test']
+
+scripts.forEach(function(script) {
+  gulp.task(script, shell.task('npm run ' + script))
+})
 
 gulp.task('watch', function(){
   gulp.watch('./*.ki.js', ['build'])
 })
 
-gulp.task('default', ['build', 'watch'])
+gulp.task('default', ['start', 'build', 'watch'])

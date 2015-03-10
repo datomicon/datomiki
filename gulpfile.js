@@ -23,6 +23,14 @@ gulp.task('test', function() {
   }}})
 })
 
+// override the build:watch script task to also send notifications
+gulp.task('build:watch', function() {
+  run("npm run build:watch", {eventHandlers: {
+    stderr: function(data) {
+      notifier.notify({message: 'The build has failed!'})}
+  }})
+})
+
 gulp.task('test:watch', function() {
   gulp.watch(['./datomiki.ki.js', 'test/*.spec.coffee'], ['test'])
 })

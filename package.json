@@ -44,7 +44,8 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/ki -a -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
-    "build:min": "./node_modules/.bin/ki -a -s -u -c -i macros.ki.js -o datomiki.js datomiki.ki.js",
+    "build:min": "npm run build -- -u -c",
+    "build:watch": "npm run build -- -w",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
   },

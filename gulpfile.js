@@ -11,7 +11,7 @@ scripts.forEach(function(script) {
   gulp.task(script, shell.task('npm run ' + script))
 })
 
-// override the test script task
+// override the test script task to also send notifications
 gulp.task('test', function() {
   run("npm test", {eventHandlers: {close: function(code) {
       if (code === 0) {
@@ -24,7 +24,7 @@ gulp.task('test', function() {
 })
 
 gulp.task('test:watch', function() {
-  gulp.watch('./datomiki.ki.js', ['test'])
+  gulp.watch(['./datomiki.ki.js', 'test/*.spec.coffee'], ['test'])
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

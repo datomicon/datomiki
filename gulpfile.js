@@ -9,8 +9,8 @@ scripts.forEach(function(script) {
   gulp.task(script, shell.task('npm run ' + script))
 })
 
-gulp.task('watch', function(){
-  gulp.watch('./*.ki.js', ['build'])
+gulp.task('test:watch', function(){
+  gulp.watch('./datomiki.ki.js', ['test'])
 })
 
-gulp.task('default', ['start', 'build', 'watch'])
+gulp.task('default', ['start', 'build:watch', 'test:watch'])

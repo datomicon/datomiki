@@ -23,7 +23,7 @@
   "dependencies": {
     "dbin": "0.0.8",
     "jsedn": "^0.3.5",
-    "ki": "~0.2.0",
+    "ki": "^0.2.2",
     "lodash": "^3.3.1",
     "request-promise": "^0.4.0",
     "source-map-support": "^0.2.9"
@@ -43,8 +43,8 @@
     "asi": true
   },
   "scripts": {
-    "build": "./node_modules/.bin/ki -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
-    "build:min": "./node_modules/.bin/ki -s -u -c -i macros.ki.js -o datomiki.js datomiki.ki.js",
+    "build": "./node_modules/.bin/ki -a -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
+    "build:min": "./node_modules/.bin/ki -a -s -u -c -i macros.ki.js -o datomiki.js datomiki.ki.js",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
   },

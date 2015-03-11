@@ -31,7 +31,7 @@ gulp.task('build:watch', function() {
   }})
 })
 
-gulp.task('wait-up', shell.task("dbin gets-ok?"))
+gulp.task('wait-up', shell.task("./node_modules/.bin/dbin gets-ok?"))
 
 gulp.task('test:watch', ['wait-up'], function() {
   gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], ['test'])

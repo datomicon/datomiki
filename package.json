@@ -23,20 +23,20 @@
   "dependencies": {
     "dbin": "0.0.8",
     "jsedn": "^0.3.5",
-    "ki": "^0.2.2",
-    "lodash": "^3.3.1",
+    "ki": "^0.2.3",
+    "lodash": "^3.5.0",
     "request-promise": "^0.4.0",
     "source-map-support": "^0.2.9"
   },
   "devDependencies": {
     "chai": "^2.1.1",
-    "chai-as-promised": "^4.2.0",
+    "chai-as-promised": "^4.3.0",
     "childish-process": "0.0.2",
     "coffee-script": "^1.9.1",
     "gulp": "^3.8.11",
     "gulp-shell": "^0.3.0",
     "is-promise": "^2.0.0",
-    "mocha": "^2.1.0",
+    "mocha": "^2.2.1",
     "mori": "~0.3.2",
     "node-notifier": "^4.1.2",
     "request": "^2.53.0"

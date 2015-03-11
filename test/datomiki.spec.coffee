@@ -1,6 +1,6 @@
 #!/usr/bin/env mocha
 
-toJs = require("mori").toJs
+toJs = require("../node_modules/ki/node_modules/mori").toJs
 request = require("request")
 
 

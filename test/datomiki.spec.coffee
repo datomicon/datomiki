@@ -1,6 +1,6 @@
 #!/usr/bin/env mocha
 
-toJs = require("mori").toJs
+toJs = require("../node_modules/ki/node_modules/mori").toJs
 request = require("request")
 
 
@@ -25,21 +25,27 @@ describe "datomiki", ->
         ok res
         done()
 
-  describe "aliases", ->
+  describe "aliases / opts", ->
     it "can get a list of storage aliases", (done) ->
       d.aliases (err, res) ->
         ok res
         done()
-    it "is also a promise", (done) ->
+    it "is also a promise", ->
       res = d.aliases()
       isPromise(res)
       res.then (res) ->
         ok res
-        done()
     it "can return just the body, though the promise should be made simple", ->
       res = d.aliases({partial: "body", simple: true})
       res.should.be.fulfilled
       res.should.eventually.be.an "array"
+    it "can get the headers plus whatever else wanted from the response", ->
+      pr = d.aliases({partial: ["headers", "body"]})
+      pr.should.be.fulfilled && pr.then (res) ->
+        res.should.not.have.property "statusCode" # didn't ask for it
+        res.should.have.property "headers"
+        res.should.have.property "body"
+
 
   describe "a promised error for /data", ->
     it "/data gets a 404, because a trailing / is expected", (done) ->

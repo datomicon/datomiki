@@ -13,7 +13,7 @@ scripts.forEach(function(script) {
 
 // override the test script task to also send notifications
 gulp.task('test', function() {
-  run("npm test", {eventHandlers: {close: function(code) {
+  run('npm test', {eventHandlers: {close: function(code) {
       if (code === 0) {
         notifier.notify({message: 'The tests have passed.'})
       }
@@ -25,14 +25,14 @@ gulp.task('test', function() {
 
 // override the build:watch script task to also send notifications
 gulp.task('build:watch', function() {
-  run("npm run build:watch", {eventHandlers: {
+  run('npm run build:watch', {eventHandlers: {
     stderr: function(data) {
       notifier.notify({message: 'The build has failed!'})}
   }})
 })
 
 gulp.task('test:watch', function() {
-  gulp.watch(['./datomiki.ki.js', 'test/*.spec.coffee'], ['test'])
+  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], ['test'])
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

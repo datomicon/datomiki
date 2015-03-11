@@ -14,15 +14,7 @@ ki (ns datomiki
   (def isObject (js require("lodash").isObject))
   (def isString (js require("lodash").isString))
   (def isFunction (js require("lodash").isFunction))
-
-  (defn pick [from keys]
-    (let [res {$}]
-      (loop [key (.pop keys)]
-        (if (js key == undefined)
-          res
-          (do
-            (js res[key] = from[key])
-            (recur (.pop keys)))))))
+  (def pick (js require("lodash").pick))
 
   (defn transform [body response]
     (let [o (js response.request._rp_options)]
@@ -38,7 +30,7 @@ ki (ns datomiki
             })
         (let [partial (js o.partial)]
           (cond
-            (isArray partial) (pick response partial)
+            (isArray partial) (apply pick response partial)
             (isString partial) (js response[partial])
             :else response)))))
 

@@ -11,8 +11,10 @@ scripts.forEach(function(script) {
   gulp.task(script, shell.task('npm run ' + script))
 })
 
+gulp.task('wait-up', shell.task("dbin gets-ok?"))
+
 // override the test script task to also send notifications
-gulp.task('test', function() {
+gulp.task('test', ['wait-up'], function() {
   run('npm test', {eventHandlers: {close: function(code) {
       if (code === 0) {
         notifier.notify({message: 'The tests have passed.'})

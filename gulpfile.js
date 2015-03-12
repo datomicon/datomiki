@@ -8,7 +8,7 @@ var args = require('yargs')
   .argv
 
 // counting on the presence of 'build' and 'start'
-require('./gulp/npm-scripts')(gulp)
+require('./gulp/npm-scripts')(gulp, {exclude: ['test', 'build:watch']})
 
 function tester (event) {
   var test = 'npm test'

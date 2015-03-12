@@ -16,11 +16,18 @@ scripts.forEach(function(script) {
   gulp.task(script, shell.task('npm run ' + script))
 })
 
-// override the test script task to also send notifications
-gulp.task('test', function() {
-  specific = (args.n) ? ' test/new.spec.coffee' : ''
-  if (args.t) specific += ' ' + args.t
-  run('npm test' + specific, {eventHandlers: {close: function(code) {
+function tester (event) {
+  var test = 'npm test'
+  if (typeof event !== "function" && typeof event === "object") {
+    if (event.type === "changed" || event.type === "added")
+      if (/.spec.coffee$/.test(event.path))
+        test += ' ' + event.path
+  }
+  else {
+    if (args.t) test += ' ' + args.t
+    if (args.n) test += ' test/new.spec.coffee'
+  }
+  run(test, {eventHandlers: {close: function(code) {
       if (code === 0) {
         notifier.notify({message: 'The tests have passed.'})
       }
@@ -28,9 +35,12 @@ gulp.task('test', function() {
         notifier.notify({message: 'Tests fail!'})
       }
   }}})
-})
+}
 
-// override the build:watch script task to also send notifications
+// extend 'test'
+gulp.task('test', tester)
+
+// extend 'build:watch'
 gulp.task('build:watch', function() {
   run('npm run build:watch', {eventHandlers: {
     stderr: function(data) {
@@ -41,7 +51,7 @@ gulp.task('build:watch', function() {
 gulp.task('wait-up', shell.task("./node_modules/.bin/dbin gets-ok?"))
 
 gulp.task('test:watch', ['wait-up'], function() {
-  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], ['test'])
+  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], tester)
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

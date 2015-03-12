@@ -49,7 +49,8 @@
     "build:watch": "npm run build -- -w",
     "unbuild": "git checkout -- ./datomiki.js ./datomiki.js.map",
     "start": "./node_modules/.bin/dbin -tr",
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/mocha",
+    "test:new": "npm test -- test/new.spec.coffee"
   },
   "engines": {
     "node": ">= 0.10.0"

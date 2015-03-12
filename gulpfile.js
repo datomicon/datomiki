@@ -1,38 +1,13 @@
 var gulp = require('gulp')
+var test = require('./gulp/npm-test-task')
 var run = require('childish-process').run
 var notifier = require('node-notifier')
-
-var args = require('yargs')
-  .string("t").alias("t", "--test").describe("n", "tell gulp what to test")
-  .boolean("n").alias("n", "--test-new").describe("n", "only test/new.spec.coffee")
-  .argv
 
 // counting on the presence of 'build' and 'start'
 require('./gulp/npm-scripts')(gulp, {exclude: ['test', 'build:watch']})
 
-function tester (event) {
-  var test = 'npm test'
-  if (typeof event !== "function" && typeof event === "object") {
-    if (event.type === "changed" || event.type === "added")
-      if (/.spec.coffee$/.test(event.path))
-        test += ' ' + event.path
-  }
-  else {
-    if (args.t) test += ' ' + args.t
-    if (args.n) test += ' test/new.spec.coffee'
-  }
-  run(test, {eventHandlers: {close: function(code) {
-      if (code === 0) {
-        notifier.notify({message: 'The tests have passed.'})
-      }
-      else {
-        notifier.notify({message: 'Tests fail!'})
-      }
-  }}})
-}
-
 // extend 'test'
-gulp.task('test', tester)
+gulp.task('test', test)
 
 // extend 'build:watch'
 gulp.task('build:watch', function() {
@@ -47,7 +22,7 @@ gulp.task('wait-up', function () {
 })
 
 gulp.task('test:watch', ['wait-up'], function() {
-  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], tester)
+  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], test)
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

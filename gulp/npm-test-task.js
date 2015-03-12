@@ -1,5 +1,5 @@
 var run = require('childish-process').run
-var notifier = require('node-notifier')
+var hen = require('./event-handlers').test // handle event notifications :)
 var args = require('yargs')
   .string("t").alias("t", "--test").describe("t", "tell gulp what to test")
   .argv
@@ -13,12 +13,6 @@ module.exports = function (event) {
   }
   else if (args.t)
     test += ' ' + args.t
-  run(test, {eventHandlers: {close: function(code) {
-      if (code === 0) {
-        notifier.notify({message: 'The tests have passed.'})
-      }
-      else {
-        notifier.notify({message: 'Tests fail!'})
-      }
-  }}})
+
+  run(test, {eventHandlers: hen})
 }

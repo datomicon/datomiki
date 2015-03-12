@@ -47,6 +47,7 @@
     "build": "./node_modules/.bin/ki -s -i macros.ki.js -o datomiki.js datomiki.ki.js",
     "build:min": "npm run build -- -u -c",
     "build:watch": "npm run build -- -w",
+    "unbuild": "git checkout -- ./datomiki.js ./datomiki.js.map",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/.bin/mocha"
   },

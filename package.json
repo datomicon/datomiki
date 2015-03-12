@@ -48,7 +48,7 @@
     "build:min": "npm run build -- -u -c",
     "build:watch": "npm run build -- -w",
     "start": "./node_modules/.bin/dbin -tr",
-    "test": "./node_modules/mocha/bin/mocha test/*.spec.coffee"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "engines": {
     "node": ">= 0.10.0"

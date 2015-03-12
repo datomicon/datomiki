@@ -1,6 +1,4 @@
 var gulp = require('gulp')
-var shell = require('gulp-shell')
-var keys = require('lodash').keys
 var run = require('childish-process').run
 var notifier = require('node-notifier')
 
@@ -10,11 +8,7 @@ var args = require('yargs')
   .argv
 
 // counting on the presence of 'build' and 'start'
-var scripts = keys(require('./package.json').scripts)
-
-scripts.forEach(function(script) {
-  gulp.task(script, shell.task('npm run ' + script))
-})
+require('./gulp/npm-scripts')(gulp)
 
 function tester (event) {
   var test = 'npm test'
@@ -48,7 +42,9 @@ gulp.task('build:watch', function() {
   }})
 })
 
-gulp.task('wait-up', shell.task("./node_modules/.bin/dbin gets-ok?"))
+gulp.task('wait-up', function () {
+  run("./node_modules/.bin/dbin gets-ok?")
+})
 
 gulp.task('test:watch', ['wait-up'], function() {
   gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], tester)

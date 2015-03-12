@@ -34,7 +34,6 @@
     "childish-process": "0.0.2",
     "coffee-script": "^1.9.1",
     "gulp": "^3.8.11",
-    "gulp-shell": "^0.3.0",
     "is-promise": "^2.0.0",
     "mocha": "^2.2.1",
     "node-notifier": "^4.1.2",

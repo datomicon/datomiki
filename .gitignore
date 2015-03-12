@@ -8,11 +8,9 @@
 *.swp
 tmp
 
-/datomic/*
-
 # Node
 node_modules
-npm-debug.log
+npm-debug.log*
 
 # Clojure
 *.jar

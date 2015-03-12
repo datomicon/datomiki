@@ -4,6 +4,10 @@ var keys = require('lodash').keys
 var run = require('childish-process').run
 var notifier = require('node-notifier')
 
+var argv = require('yargs')
+  .boolean("n").alias("n", "--test-new").describe("n", "= test/new.spec.coffee")
+  .argv
+
 // counting on the presence of 'build' and 'start'
 var scripts = keys(require('./package.json').scripts)
 
@@ -13,7 +17,8 @@ scripts.forEach(function(script) {
 
 // override the test script task to also send notifications
 gulp.task('test', function() {
-  run('npm test', {eventHandlers: {close: function(code) {
+  specific = (argv.n) ? ' test/new.spec.coffee' : ''
+  run('npm test' + specific, {eventHandlers: {close: function(code) {
       if (code === 0) {
         notifier.notify({message: 'The tests have passed.'})
       }

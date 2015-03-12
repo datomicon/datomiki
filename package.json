@@ -38,7 +38,8 @@
     "is-promise": "^2.0.0",
     "mocha": "^2.2.1",
     "node-notifier": "^4.1.2",
-    "request": "^2.53.0"
+    "request": "^2.53.0",
+    "yargs": "^3.5.4"
   },
   "jshintConfig": {
     "asi": true
@@ -48,7 +49,7 @@
     "build:min": "npm run build -- -u -c",
     "build:watch": "npm run build -- -w",
     "start": "./node_modules/.bin/dbin -tr",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "engines": {
     "node": ">= 0.10.0"

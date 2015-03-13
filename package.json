@@ -50,7 +50,7 @@
     "unbuild": "git checkout -- ./datomiki.js ./datomiki.js.map",
     "start": "./node_modules/.bin/dbin -tr",
     "test": "./node_modules/.bin/mocha",
-    "test/new": "npm test -- test/new.spec.coffee --notify test"
+    "test/new": "gulp test -t test/new.spec.coffee -e test-part"
   },
   "engines": {
     "node": ">= 0.10.0"

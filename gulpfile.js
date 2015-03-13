@@ -1,12 +1,13 @@
 var gulp = require('gulp')
-var test = require('./gulp/npm-test-task')
 var run = require('childish-process').run
 var notifier = require('node-notifier')
 
 // counting on the presence of 'build' and 'start'
 require('./gulp/npm-scripts')(gulp, {exclude: ['test', 'build:watch']})
 
-// extend 'test'
+// extend 'test'; reuse test fn for gulp test:watch
+var test = require('./gulp/test-task')({testsRe: /\.spec\.coffee$/,
+                                        testCmd: './node_modules/.bin/mocha'})
 gulp.task('test', test)
 
 // extend 'build:watch'

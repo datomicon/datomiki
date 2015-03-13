@@ -8,13 +8,21 @@ var args = require('yargs')
   .argv
 
 module.exports = function (gulp, opts) {
-  o = opts || {}
+  o = opts || {eventHandlers: {}}
   _.merge(o, {exclude: [], eventHandlers: eho.default})
-  if (args.e && eho[args.e]) o.eventHandlers = eho[args.e]
   var scripts = _.keys(require(path.join(process.cwd(), 'package.json')).scripts)
   scripts = _.difference(scripts, opts.exclude)
   if (scripts.length) {
     scripts.forEach(function (script) {
+      if (args.e && eho[args.e])
+        o.eventHandlers = eho[args.e]
+      else if(opts.eventHandlers[script]) {
+        if(typeof opts.eventHandlers[script] === "object")
+          o.eventHandlers = opts.eventHandlers[script]
+        else if(typeof opts.eventHandlers[script] === "string" &&
+                eho[opts.eventHandlers[script]])
+          o.eventHandlers = eho[opts.eventHandlers[script]]
+        }
       gulp.task(script, function () {
         run('npm run ' + script, {eventHandlers: o.eventHandlers})
       })

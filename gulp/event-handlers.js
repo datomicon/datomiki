@@ -1,6 +1,10 @@
 var notifier = require('node-notifier')
 
 module.exports = {
+  default:
+    {stderr: function(data) {
+      notifier.notify({message: 'The command has failed!'})}
+    },
   build:
     {stderr: function(data) {
       notifier.notify({message: 'The build has failed!'})}

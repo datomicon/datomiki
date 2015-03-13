@@ -11,11 +11,12 @@ module.exports = function (opts) {
   var o = opts || {}
   o.testCmd = o.testCmd || 'npm test'
   o.testsRe = o.testRe || /\.js$/
+
   return function (event) {
     if (typeof event !== "function" && typeof event === "object") {
       if (event.type === "changed" || event.type === "added")
         if (o.testsRe.test(event.path))
-          test += ' ' + event.path
+          o.testCmd += ' ' + event.path
     }
     else if (args.t)
       o.testCmd += ' ' + args.t

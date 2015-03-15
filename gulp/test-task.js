@@ -1,6 +1,5 @@
-var run = require('childish-process').run
-var eho = require('./event-handlers')
-var teh = require('./event-handlers').test // default: test event handling
+var run = require('childish-process')
+var eho = require('./event-handlers') // event handlers object
 var args = require('yargs')
   .string("t").alias("t", "--test").describe("t", "tell gulp what to test")
   .string("e").alias("e", "--event-handle")
@@ -21,6 +20,6 @@ module.exports = function (opts) {
     else if (args.t)
       o.testCmd += ' ' + args.t
 
-    run(o.testCmd, {eventHandlers: (args.e && eho[args.e]) ? eho[args.e] : teh})
+    run(o.testCmd, {childish: (args.e && eho[args.e]) ? eho[args.e] : eho.test})
   }
 }

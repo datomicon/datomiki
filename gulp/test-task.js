@@ -9,16 +9,19 @@ var args = require('yargs')
 module.exports = function (opts) {
   var o = opts || {}
   o.testCmd = o.testCmd || 'npm test'
-  o.testsRe = o.testRe || /\.js$/
+  o.testsRe = o.testsRe || /\.js$/
 
   return function (event) {
     if (typeof event !== "function" && typeof event === "object") {
-      if (event.type === "changed" || event.type === "added")
-        if (o.testsRe.test(event.path))
+      if (event.type === "changed" || event.type === "added") {
+        if (o.testsRe.test(event.path)) {
           o.testCmd += ' ' + event.path
+        }
+      }
     }
-    else if (args.t)
+    else if (args.t) {
       o.testCmd += ' ' + args.t
+    }
 
     run(o.testCmd, {childish: (args.e && eho[args.e]) ? eho[args.e] : eho.test})
   }

@@ -6,6 +6,7 @@ var templates = {
     "mode": "notify",
     "strategy": "exiter",
     "extends": false,
+    "verbose": false,
     "failure": {"message": "The command has failed!"}
   },
   "build-w": {
@@ -48,6 +49,9 @@ var strategies = {
     // the default strategy
     return {
       "close": function(code) {
+        if (opts.verbose) {
+          console.log('exiter.on("close") opts: ', opts)
+        }
         if (code === 0) {
           notifier.notify(opts.success)
         }

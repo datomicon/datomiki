@@ -3,7 +3,8 @@ var gulp = require('gulp')
 // counting on the presence of 'build' and 'start'
 require('./gulp/npm-scripts')(gulp, {
   exclude: ['test'],
-  eventHandlers: {"build:watch": "build-w"}
+  default: 'default',
+  recipes: {'build:watch': 'build-w'}
 })
 
 // modify 'test'; reuse test fn for gulp test:watch

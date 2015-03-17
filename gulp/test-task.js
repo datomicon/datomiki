@@ -9,6 +9,9 @@ module.exports = function (opts) {
   var o = opts || {}
   o.testCmd = o.testCmd || 'npm test'
   o.testsRe = o.testsRe || /\.js$/
+  if (o.templates) {
+    run = run({childish: {templates: require(o.templates)}})
+  }
 
   return function (event) {
     if (typeof event !== "function" && typeof event === "object") {
@@ -22,6 +25,6 @@ module.exports = function (opts) {
       o.testCmd += ' ' + args.t
     }
 
-    run(o.testCmd, {childish: args.e || 'test'})
+    run(o.testCmd, {childish: {template: args.e || 'test'}})
   }
 }

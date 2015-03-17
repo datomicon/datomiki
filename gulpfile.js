@@ -4,12 +4,14 @@ var gulp = require('gulp')
 require('./gulp/npm-scripts')(gulp, {
   exclude: ['test'],
   default: 'default',
-  recipes: {'build:watch': 'build-w'}
+  customize: {'build:watch': 'build-w'},
+  templates: './childish-templates.json'
 })
 
 // modify 'test'; reuse test fn for gulp test:watch
 var test = require('./gulp/test-task')({testsRe: /\.spec\.coffee$/,
-                                        testCmd: './node_modules/.bin/mocha'})
+                                        testCmd: './node_modules/.bin/mocha',
+                                        templates: './childish-templates.json'})
 gulp.task('test', test)
 
 gulp.task('test:watch', ['wait-up'], function() {

@@ -1,7 +1,6 @@
 var _ = require('lodash')
 var path = require('path')
 var run = require('childish-process')
-var eho = require('./childish-options')
 var args = require('yargs')
   .string("e").alias("e", "--event-handle")
   .describe("e", "use a predefined event-handlers template")
@@ -17,7 +16,7 @@ module.exports = function (gulp, opts) {
     scripts.forEach(function (script) {
       gulp.task(script, function () {
         var recipe = args.e || o.recipes[script] || o.default || 'default'
-        run('npm run ' + script, {childish: eho(recipe)})
+        run('npm run ' + script, {childish: recipe})
       })
     })
   }

@@ -1,5 +1,4 @@
 var run = require('childish-process')
-var eho = require('./childish-options')
 var args = require('yargs')
   .string("t").alias("t", "--test").describe("t", "tell gulp what to test")
   .string("e").alias("e", "--event-handle")
@@ -23,6 +22,6 @@ module.exports = function (opts) {
       o.testCmd += ' ' + args.t
     }
 
-    run(o.testCmd, {childish: eho(args.e || 'test')})
+    run(o.testCmd, {childish: args.e || 'test'})
   }
 }

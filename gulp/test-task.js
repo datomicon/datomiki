@@ -5,7 +5,7 @@ var args = require('yargs')
   .describe("e", "use a predefined event-handlers template")
   .argv
 
-module.exports = function (opts) {
+module.exports = function (gulp, opts) {
   var o = opts || {}
   o.testCmd = o.testCmd || 'npm test'
   o.testsRe = o.testsRe || /\.js$/
@@ -13,18 +13,22 @@ module.exports = function (opts) {
     run = run({childish: {templates: require(o.templates)}})
   }
 
-  return function (event) {
-    if (typeof event !== "function" && typeof event === "object") {
-      if (event.type === "changed" || event.type === "added") {
-        if (o.testsRe.test(event.path)) {
-          o.testCmd += ' ' + event.path
-        }
+  function test(file) {
+    var cmd = o.testCmd
+    if (file) {
+      if (file.event == 'change' && o.testsRe.test(file.path)) {
+        cmd += ' ' + file.path
+      }
+      else {
+        return // don't run it
       }
     }
     else if (args.t) {
-      o.testCmd += ' ' + args.t
+      cmd += ' ' + args.t
     }
-
-    run(o.testCmd, {childish: {template: args.e || 'test'}})
+    run(cmd, {childish: {template: args.e || 'test'}})
   }
+
+  gulp.task('test', test)
+  return test // can use with gulp-watch
 }

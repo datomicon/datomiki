@@ -1,4 +1,5 @@
-var gulp = require('gulp')
+var gulp = require('gulp'),
+    watch = require('gulp-watch')
 
 // counting on the presence of 'build' and 'start'
 require('./gulp/npm-scripts')(gulp, {
@@ -9,13 +10,14 @@ require('./gulp/npm-scripts')(gulp, {
 })
 
 // modify 'test'; reuse test fn for gulp test:watch
-var test = require('./gulp/test-task')({testsRe: /\.spec\.coffee$/,
-                                        testCmd: './node_modules/.bin/mocha',
-                                        templates: './childish-templates.json'})
-gulp.task('test', test)
+var test = require('./gulp/test-task')(gulp,
+  {testsRe: /\.spec\.coffee$/,
+  testCmd: './node_modules/.bin/mocha',
+  templates: './childish-templates.json'
+})
 
 gulp.task('test:watch', ['wait-up'], function() {
-  gulp.watch(['./datomiki.js', 'test/*.spec.coffee'], test)
+  watch(['./datomiki.js', 'test/*.spec.coffee'], test)
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

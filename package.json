@@ -22,6 +22,7 @@
   "main": "datomiki",
   "dependencies": {
     "dbin": "0.0.8",
+    "gulp-watch": "^4.2.0",
     "jsedn": "^0.3.5",
     "ki": "^0.2.3",
     "lodash": "^3.5.0",

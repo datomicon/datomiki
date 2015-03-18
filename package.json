@@ -22,6 +22,7 @@
   "main": "datomiki",
   "dependencies": {
     "dbin": "0.0.8",
+    "gulp-watch": "^4.2.0",
     "jsedn": "^0.3.5",
     "ki": "^0.2.3",
     "lodash": "^3.5.0",
@@ -36,7 +37,6 @@
     "gulp": "^3.8.11",
     "is-promise": "^2.0.0",
     "mocha": "^2.2.1",
-    "node-notifier": "^4.1.2",
     "request": "^2.53.0",
     "yargs": "^3.5.4"
   },
@@ -51,7 +51,7 @@
     "start": "./node_modules/.bin/dbin -tr",
     "wait-up": "./node_modules/.bin/dbin gets-ok?",
     "test": "./node_modules/.bin/mocha",
-    "test/new": "./node_modules/.bin/gulp test -t test/new.spec.coffee -e test-part"
+    "test/new": "./node_modules/.bin/gulp test -t test/new.spec.coffee"
   },
   "engines": {
     "node": ">= 0.10.0"

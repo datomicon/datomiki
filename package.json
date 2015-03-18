@@ -51,7 +51,7 @@
     "start": "./node_modules/.bin/dbin -tr",
     "wait-up": "./node_modules/.bin/dbin gets-ok?",
     "test": "./node_modules/.bin/mocha",
-    "test/new": "./node_modules/.bin/gulp test -t test/new.spec.coffee -e test-part"
+    "test/new": "./node_modules/.bin/gulp test -t test/new.spec.coffee"
   },
   "engines": {
     "node": ">= 0.10.0"

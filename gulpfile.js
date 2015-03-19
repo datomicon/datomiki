@@ -6,14 +6,14 @@ require('gulp-npm-run')(gulp, {
   exclude: ['test'],
   default: 'default',
   customize: {'build:watch': 'build-w'},
-  templates: 'gulp/childish-templates.json'
+  templates: 'notifications.json'
 })
 
 // modify 'test'; reuse test fn for gulp test:watch
-var test = require('./gulp/test-task')(gulp, {
+var test = require('gulp-npm-test')(gulp, {
   testsRe: /\.spec\.coffee$/,
-  testCmd: './node_modules/.bin/mocha',
-  templates: './childish-templates.json',
+  testCmd: 'node_modules/.bin/mocha',
+  templates: 'notifications.json',
   templateFull: 'test', // for running all the tests
   templatePart: 'test-part' // partial testing (e.g. test file change event)
 })

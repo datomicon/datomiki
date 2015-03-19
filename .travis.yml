@@ -12,7 +12,7 @@ install:
   - npm install
 before_script:
   - npm start &
-  - dbin gets-ok?
+  - npm run wait-up
 notifications:
   email:
     recipients:

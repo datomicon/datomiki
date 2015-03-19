@@ -2,11 +2,11 @@ var gulp = require('gulp'),
     watch = require('gulp-watch')
 
 // counting on the presence of 'build' and 'start'
-require('./gulp/npm-scripts')(gulp, {
+require('gulp-npm-run')(gulp, {
   exclude: ['test'],
   default: 'default',
   customize: {'build:watch': 'build-w'},
-  templates: './childish-templates.json'
+  templates: 'gulp/childish-templates.json'
 })
 
 // modify 'test'; reuse test fn for gulp test:watch

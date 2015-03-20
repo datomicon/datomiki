@@ -12,10 +12,7 @@ require('gulp-npm-run')(gulp, {
 // modify 'test'; reuse test fn for gulp test:watch
 var test = require('gulp-npm-test')(gulp, {
   testsRe: /\.spec\.coffee$/,
-  testCmd: 'node_modules/.bin/mocha',
-  templates: 'notifications.json',
-  templateFull: 'test', // for running all the tests
-  templatePart: 'test-part' // partial testing (e.g. test file change event)
+  testCmd: 'node_modules/.bin/mocha'
 })
 
 gulp.task('test:watch', ['wait-up'], function() {

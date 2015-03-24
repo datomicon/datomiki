@@ -1,7 +1,4 @@
-var gulp = require('gulp'),
-    watch = require('gulp-watch')
-
-require('gulp-npm-run')(gulp, {
+var gulp = require('gulp-npm-run')(require('gulp'), {
   requireStrict: true,
   require: ['build', 'start'],
   exclude: ['test'],
@@ -17,7 +14,7 @@ var test = require('gulp-npm-test')(gulp, {
 })
 
 gulp.task('test:watch', ['wait-up'], function() {
-  watch(['./datomiki.js', 'test/*.spec.coffee'], test)
+  require('gulp-watch')(['./datomiki.js', 'test/*.spec.coffee'], test)
 })
 
 gulp.task('default', ['start', 'build:watch', 'test:watch'])

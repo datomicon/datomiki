@@ -34,8 +34,8 @@
     "chai-as-promised": "^4.3.0",
     "coffee-script": "^1.9.1",
     "gulp": "^3.8.11",
-    "gulp-npm-run": "0.0.0-1",
-    "gulp-npm-test": "0.0.0-2",
+    "gulp-npm-run": "0.0.0-2",
+    "gulp-npm-test": "0.0.0-3",
     "is-promise": "^2.0.0",
     "mocha": "^2.2.1",
     "request": "^2.53.0"

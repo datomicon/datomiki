@@ -1,11 +1,8 @@
-var gulp = require('gulp'),
-    watch = require('gulp-watch')
-
-require('gulp-npm-run')(gulp, {
-  requireStrict: true,
-  require: ['build', 'start'],
+var gulp = require('gulp-npm-run')(require('gulp'), {
+  include: {'start': 'Run the datomic servers. This task doesn\'t exit.'},
   exclude: ['test'],
-  default: 'default',
+  require: ['build', 'start'],
+  requireStrict: true,
   customize: {'build:watch': 'build-w'},
   templates: 'notifications.json'
 })
@@ -16,8 +13,8 @@ var test = require('gulp-npm-test')(gulp, {
   testCmd: 'node_modules/.bin/mocha'
 })
 
-gulp.task('test:watch', ['wait-up'], function() {
-  watch(['./datomiki.js', 'test/*.spec.coffee'], test)
+gulp.task('test:watch', 'The `gulp test` + watching.', ['wait-up'], function() {
+  require('gulp-watch')(['./datomiki.js', 'test/*.spec.coffee'], test)
 })
 
-gulp.task('default', ['start', 'build:watch', 'test:watch'])
+gulp.task('dev', 'Develop datomiki...', ['start', 'build:watch', 'test:watch'])

@@ -13,10 +13,8 @@ var test = require('gulp-npm-test')(gulp, {
   testCmd: 'node_modules/.bin/mocha'
 })
 
-gulp.task('test:watch', ['wait-up'], function() {
+gulp.task('test:watch', 'The `gulp test` + watching.', ['wait-up'], function() {
   require('gulp-watch')(['./datomiki.js', 'test/*.spec.coffee'], test)
 })
 
 gulp.task('dev', 'Develop datomiki...', ['start', 'build:watch', 'test:watch'])
-
-gulp.task('default', 'Delegates to `gulp help`.', ['help'])

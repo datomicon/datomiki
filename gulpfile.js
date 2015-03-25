@@ -1,8 +1,7 @@
 var gulp = require('gulp-npm-run')(require('gulp'), {
-  requireStrict: true,
-  require: ['build', 'start'],
   exclude: ['test'],
-  default: 'default',
+  require: ['build', 'start'],
+  requireStrict: true,
   customize: {'build:watch': 'build-w'},
   templates: 'notifications.json'
 })
